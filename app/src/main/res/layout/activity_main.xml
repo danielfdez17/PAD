@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/et_ingredientes_disponibles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Introduce ingredientes disponibles"
+        android:layout_marginBottom="8dp"/>
+    <EditText
+        android:id="@+id/et_ingredientes_bloqueados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Introduce ingredientes a bloquear"
+        android:layout_marginBottom="8dp"/>
+    <SeekBar
+        android:id="@+id/sb_tiempo_preparacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="120"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_generar_recetas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generar Recetas"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_gradient"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recetas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/btn_ver_favoritas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Recetas Favoritas"
+        android:background="@drawable/button_gradient"/>
+
+</LinearLayout>
