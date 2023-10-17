@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SaboreArte</string>
+    <string-array name="tiempos_preparacion">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>45 minutos</item>
+        <item>60 minutos</item>
+        <item>120 minutos</item>
+    </string-array>
 </resources>
