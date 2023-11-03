@@ -26,7 +26,7 @@ public class RecipeAPI {
     private final String TIME_RANGE_PARAM = "time";
     private final String EXCLUDED_PARAM = "excluded";
     private final String HEALTH_PARAM = "health";
-    private final String FIELDS_PARAM = "field=uri&field=label&field=image&field=images&field=source&field=url&field=ingredientLines&field=calories&field=totalTime&field=cuisineType&field=mealType";
+    private final String FIELDS_PARAM = "field=uri&field=label&field=image&field=images&field=source&field=url&field=ingredientLines&field=calories&field=totalTime&field=cuisineType&field=mealType&field=healthLabels";
     private final String API_ENDPOINT = "https://www.edamam.com/#!/Recipe_Search/get_api_recipes_v2";
 
     public List<Receta> getRecetas(String ingredients, ArrayList<String> cuisineTypes, String mealType, String timeRange, ArrayList<String> excludedIngredientes, ArrayList<String> healthOptions) {

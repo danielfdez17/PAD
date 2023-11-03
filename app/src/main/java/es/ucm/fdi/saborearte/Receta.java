@@ -15,9 +15,11 @@ public class Receta {
     private final int tiempoPreparacion;  // en minutos
     private final String cuisine;   // pais
     private final String mealTypes; // comida/cena/etc...
+    private final ArrayList<String> healthLabels;
+
 
     // Constructor
-    public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes) {
+    public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes, ArrayList<String> healthLabels) {
         this.titulo = titulo;
         this.image_uri = image_uri;
         this.source_uri = source_uri;
@@ -25,6 +27,7 @@ public class Receta {
         this.tiempoPreparacion = tiempoPreparacion;
         this.cuisine = cuisine;
         this.mealTypes = mealTypes;
+        this.healthLabels = healthLabels;
     }
     // Getters
     public String getTitulo() {
@@ -54,6 +57,9 @@ public class Receta {
     public String getMealTypes() {
         return mealTypes;
     }
+    public ArrayList<String> getHealthLabels() {
+        return healthLabels;
+    }
 
     public static List<Receta> fromJsonResponse(String jsonStringList) throws JSONException {
         if(jsonStringList == null)
@@ -74,16 +80,28 @@ public class Receta {
             String title = recipe.getString("label");
             String image_uri = recipe.getString("image");
             String source_uri = recipe.getString("url");
+
+            // Ingredientes
             ArrayList<String> ingredients = new ArrayList<>();
             JSONArray ingredientsArray = recipe.getJSONArray("ingredients");
             for(int x = 0; x < ingredientsArray.length(); x++){
                 ingredients.add(ingredientsArray.getString(i));
             }
+
+            // Health Labels
+            ArrayList<String> healthLabels = new ArrayList<>();
+            JSONArray healthLabelsArray = recipe.getJSONArray("healthLabels");
+            for(int x = 0; x < healthLabelsArray.length(); x++){
+                healthLabels.add(healthLabelsArray.getString(i));
+            }
+            // Tiempo
             int total_time = recipe.getInt("totalTime");
+            // Cuisine
             String cuisine = recipe.getJSONArray("cuisineType").getString(0);
+            // Tipo
             String mealTypes = recipe.getJSONArray("mealType").getString(0);
 
-            recetas.add(new Receta(title, image_uri, source_uri, ingredients, total_time, cuisine, mealTypes));
+            recetas.add(new Receta(title, image_uri, source_uri, ingredients, total_time, cuisine, mealTypes, healthLabels));
         }
 
         return recetas;
