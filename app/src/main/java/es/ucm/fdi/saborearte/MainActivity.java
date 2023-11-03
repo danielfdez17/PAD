@@ -13,7 +13,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView rvRecetas;
     private List<Receta> recetas = new ArrayList<>();  // Puedes llenar esta lista como prefieras.
-    private RecetaAdapter recetaAdapter;
+    private RecetaResultListAdapter recetaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         rvRecetas = findViewById(R.id.rv_recetas);
         rvRecetas.setLayoutManager(new LinearLayoutManager(this));
-        recetaAdapter = new RecetaAdapter(this, recetas);
+        recetaAdapter = new RecetaResultListAdapter(this, recetas);
         rvRecetas.setAdapter(recetaAdapter);
     }
 }

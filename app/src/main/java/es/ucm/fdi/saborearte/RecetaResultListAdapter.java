@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
-public class RecetaAdapter extends RecyclerView.Adapter<RecetaAdapter.RecetaViewHolder> {
+public class RecetaResultListAdapter extends RecyclerView.Adapter<RecetaResultListAdapter.RecetaViewHolder> {
 
     private List<Receta> listaRecetas;
     private Context context;
 
     // Constructor
-    public RecetaAdapter(Context context, List<Receta> listaRecetas) {
+    public RecetaResultListAdapter(Context context, List<Receta> listaRecetas) {
         this.context = context;
         this.listaRecetas = listaRecetas;
     }
