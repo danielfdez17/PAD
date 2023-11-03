@@ -35,7 +35,7 @@ public class RecetaResultListAdapter extends RecyclerView.Adapter<RecetaResultLi
         holder.tvTiempo.setText(recetaActual.getTiempoPreparacion() + " minutos");
 
         // Glide para cargar imágenes desde URLs
-         Glide.with(context).load(recetaActual.getImagenUrl()).into(holder.ivImagen);
+         Glide.with(context).load(recetaActual.getImage_uri()).into(holder.ivImagen);
     }
 
     @Override

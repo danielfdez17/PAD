@@ -10,11 +10,11 @@ public class Receta {
 
     private final String titulo;
     private final String image_uri;
-    private final String source_uri;
+    private final String source_uri;    // enlace a instrucciones
     private final ArrayList<String> ingredientes;
     private final int tiempoPreparacion;  // en minutos
-    private final String cuisine;
-    private final String mealTypes;
+    private final String cuisine;   // pais
+    private final String mealTypes; // comida/cena/etc...
 
     // Constructor
     public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes) {
