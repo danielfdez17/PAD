@@ -23,10 +23,11 @@
         android:hint="Introduce ingredientes disponibles"
         android:layout_marginBottom="8dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_ingredientes_disponibles"
-            android:layout_width="match_parent"
-            android:layout_height="48dp" />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_ingredientes_disponibles"
+        android:layout_width="match_parent"
+        android:layout_height="62dp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Ingredientes bloqueados TextInputLayout -->
@@ -39,31 +40,36 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_ingredientes_bloqueados"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="62dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tv_tiempo_preparacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="¡Elige tu tiempo máximo!"
-        android:layout_marginBottom="8dp"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:gravity="center_horizontal" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_tiempo_preparacion"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="¡Elige tu tiempo máximo!"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:textAppearance="?attr/textAppearanceHeadline6"-->
+<!--        android:gravity="center_horizontal" />-->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="8dp" />-->
 
-    <Spinner
-        android:id="@+id/spinner_tiempo_preparacion"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_tiempo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" />
+        android:hint="Tiempo maximo"
+        android:layout_height="62dp"
+        android:inputType="number" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_generar_recetas"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Generar Recetas"
         android:layout_marginBottom="48dp"
-        style="@style/Widget.MaterialComponents.Button" />
+        android:text="Generar Recetas" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recetas"
