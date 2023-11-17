@@ -13,57 +13,97 @@
         android:id="@+id/logoImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/logo_app"
+        android:src="@drawable/sabor_logo"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="10dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_ingredientes_disponibles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_ingredientes_disponibles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Introduce ingredientes disponibles"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="3dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:padding="8dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/baseline_food_bank_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_ingredientes_disponibles"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- ChipGroup para Ingredientes Bloqueados -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_ingredientes_bloqueados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!-- Ingredientes bloqueados TextInputLayout -->
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_ingredientes_bloqueados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Introduce ingredientes a bloquear"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="3dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:padding="8dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/baseline_no_food_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_ingredientes_bloqueados"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tv_tiempo_preparacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="¡Elige tu tiempo máximo!"
-        android:layout_marginBottom="8dp"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:gravity="center_horizontal" />
+    <!--    <TextView-->
+<!--        android:id="@+id/tv_tiempo_preparacion"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="¡Elige tu tiempo máximo!"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:textAppearance="?attr/textAppearanceHeadline6"-->
+<!--        android:gravity="center_horizontal" />-->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="8dp" />-->
 
-    <Spinner
-        android:id="@+id/spinner_tiempo_preparacion"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" />
+        android:hint="Tiempo máximo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/baseline_more_time_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tiempo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:focusable="false" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_generar_recetas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Generar Recetas"
-        android:layout_marginBottom="48dp"
-        style="@style/Widget.MaterialComponents.Button" />
+        android:background="@drawable/button_gradient"
+        android:layout_marginTop="10dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"
+        style="@style/Widget.AppCompat.Button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recetas"
@@ -76,6 +116,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Recetas Favoritas"
-        style="@style/Widget.MaterialComponents.Button" />
+        android:background="@drawable/button_gradient"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@null"
+        style="@style/Widget.AppCompat.Button" />
 
 </LinearLayout>
