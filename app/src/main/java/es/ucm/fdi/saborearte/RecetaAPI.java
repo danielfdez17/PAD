@@ -14,28 +14,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeAPI {
-    private static final String TAG = RecipeAPI.class.getSimpleName();
-    private final String API_KEY = "a0e3b768775cb4511efd7220925707bb";
-    private final String API_APP = "3e6762bf";
-    private final String QUERY_PARAM = "q";
-    private final String APP_ID_PARAM = "app_id";
+public class RecetaAPI {
+    private static final String TAG = RecetaAPI.class.getSimpleName();
     private final String APP_KEY_PARAM = "app_key";
-    private final String MEAL_TYPE_PARAM = "mealType";
-    private final String CUISINE_TYPE_PARAM = "cuisineType";
-    private final String TIME_RANGE_PARAM = "time";
-    private final String EXCLUDED_PARAM = "excluded";
-    private final String HEALTH_PARAM = "health";
-    private final String FIELDS_PARAM = "field=uri&field=label&field=image&field=images&field=source&field=url&field=ingredientLines&field=calories&field=totalTime&field=cuisineType&field=mealType&field=healthLabels";
-    private final String API_ENDPOINT = "https://www.edamam.com/#!/Recipe_Search/get_api_recipes_v2";
+    private final String API_KEY = "a0e3b768775cb4511efd7220925707bb";
+    private final String APP_ID_PARAM = "app_id";
+        private final String API_APP = "3e6762bf";
+    public static final String QUERY_PARAM = "q";
+    public static final String MEAL_TYPE_PARAM = "mealType";
+    public static final String CUISINE_TYPE_PARAM = "cuisineType";
+    public static final String TIME_RANGE_PARAM = "time";
+    public static final String EXCLUDED_PARAM = "excluded";
+    public static final String HEALTH_PARAM = "health";
+//    private final String FIELDS_PARAM = "field=uri&field=label&field=image&field=images&field=source&field=url&field=ingredientLines&field=calories&field=totalTime&field=cuisineType&field=mealType&field=healthLabels";
+    private final String API_ENDPOINT = "https://api.edamam.com/api/recipes/v2?type=public";
 
     public List<Receta> getRecetas(String ingredients, ArrayList<String> cuisineTypes, String mealType, String timeRange, ArrayList<String> excludedIngredientes, ArrayList<String> healthOptions) {
         Uri.Builder builder = Uri.parse(API_ENDPOINT).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, ingredients)
                 .appendQueryParameter(APP_ID_PARAM, API_APP)
-                .appendQueryParameter(APP_KEY_PARAM, API_KEY)
-                .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
-                .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
+                .appendQueryParameter(APP_KEY_PARAM, API_KEY);
+//                .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
+//                .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
 
         for (String s : cuisineTypes) {
             builder = builder.appendQueryParameter(CUISINE_TYPE_PARAM, s);
@@ -47,7 +47,7 @@ public class RecipeAPI {
             builder = builder.appendQueryParameter(HEALTH_PARAM, s);
         }
 
-        Uri builtURI = builder.appendEncodedPath(FIELDS_PARAM).build();
+        Uri builtURI = builder.build();
 
         Log.i(TAG, "API CALL: " + builtURI.toString());
 

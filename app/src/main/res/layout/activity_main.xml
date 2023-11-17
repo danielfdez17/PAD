@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:onClick="searchRecetas"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center"
     tools:context=".MainActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logoImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/sabor_logo"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/sabor_logo" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_ingredientes_disponibles"
@@ -24,20 +25,20 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_ingredientes_disponibles"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Introduce ingredientes disponibles"
         android:layout_marginBottom="3dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="@string/ingredientes_incluir"
         android:padding="8dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/baseline_food_bank_24">
+        app:endIconDrawable="@drawable/baseline_food_bank_24"
+        app:endIconMode="custom">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_ingredientes_disponibles"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- ChipGroup para Ingredientes Bloqueados -->
@@ -49,14 +50,14 @@
     <!-- Ingredientes bloqueados TextInputLayout -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_ingredientes_bloqueados"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Introduce ingredientes a bloquear"
         android:layout_marginBottom="3dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="@string/ingredientes_excluir"
         android:padding="8dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/baseline_no_food_24">
+        app:endIconDrawable="@drawable/baseline_no_food_24"
+        app:endIconMode="custom">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_ingredientes_bloqueados"
@@ -65,61 +66,63 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!--    <TextView-->
-<!--        android:id="@+id/tv_tiempo_preparacion"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="¡Elige tu tiempo máximo!"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:textAppearance="?attr/textAppearanceHeadline6"-->
-<!--        android:gravity="center_horizontal" />-->
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="8dp" />-->
+    <!--        android:id="@+id/tv_tiempo_preparacion"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="¡Elige tu tiempo máximo!"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        android:textAppearance="?attr/textAppearanceHeadline6"-->
+    <!--        android:gravity="center_horizontal" />-->
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="8dp" />-->
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tiempo máximo"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/baseline_more_time_24">
+        android:hint="@string/max_time"
+        app:endIconDrawable="@drawable/baseline_more_time_24"
+        app:endIconMode="custom">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_tiempo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:focusable="false" />
+            android:focusable="false"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_generar_recetas"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Generar Recetas"
-        android:background="@drawable/button_gradient"
         android:layout_marginTop="10dp"
+        android:background="@drawable/button_gradient"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        app:backgroundTint="@null"
-        style="@style/Widget.AppCompat.Button" />
+        android:onClick="searchRecetas"
+        android:text="@string/search"
+        app:backgroundTint="@null" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recetas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_ver_favoritas"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ver Recetas Favoritas"
         android:background="@drawable/button_gradient"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        app:backgroundTint="@null"
-        style="@style/Widget.AppCompat.Button" />
+        android:onClick="verFavoritos"
+        android:text="@string/favorites"
+        app:backgroundTint="@null" />
 
 </LinearLayout>

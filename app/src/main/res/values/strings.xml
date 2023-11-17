@@ -7,4 +7,10 @@
         <item>60 minutos</item>
         <item>120 minutos</item>
     </string-array>
+    <string name="ingredientes_incluir">Introduce ingredientes disponibles</string>
+    <string name="ingredientes_excluir">Introduce ingredientes a bloquear</string>
+    <string name="max_time">Tiempo máximo</string>
+    <string name="search">Generar Recetas</string>
+    <string name="favorites">Ver Recetas Favoritas</string>
+    <string name="internet_required">Es necesario tener internet</string>
 </resources>
