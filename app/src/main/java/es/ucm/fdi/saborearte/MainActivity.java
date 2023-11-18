@@ -13,11 +13,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_SaboreArte);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -60,9 +64,13 @@ public class MainActivity extends AppCompatActivity {
         recetaLoaderCallback = new RecetaLoaderCallback(this);
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         if(loaderManager.getLoader(RECETA_LOADER_ID) != null){
-            loaderManager.initLoader(RECETA_LOADER_ID,null, recetaLoaderCallback);
+            loaderManager.initLoader(RECETA_LOADER_ID, null, recetaLoaderCallback);
         }
         recetaAdapter = new RecetaResultListAdapter(this, new ArrayList<>());
+
+        // Configuración del Spinner para las opciones de dieta
+        MaterialSpinner spinnerDietaOpciones = findViewById(R.id.spinner_dieta_opciones);
+        spinnerDietaOpciones.setItems("dairy-free", "gluten-free", "peanut-free", "pescatarian", "vegan", "vegetarian");
     }
 
     private void setupChipsForIngredientesDisponibles() {
