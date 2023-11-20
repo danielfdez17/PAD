@@ -72,7 +72,7 @@ public class Receta {
         int end = jsonObject.getInt("to");
 
         JSONArray recipes = jsonObject.getJSONArray("hits");
-        for(int i = 0; i < end-start; i++){
+        for(int i = 0; i < end-start; i++) {
             JSONObject index = recipes.getJSONObject(i);
             JSONObject recipe = index.getJSONObject("recipe");
 

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecetaResultListAdapter recetaAdapter;
     private EditText etIngredientesDisponibles;
     private EditText etIngredientesBloqueados;
+    private EditText etTiempo;
     private RecyclerView rvRecetas;
     private List<Receta> recetas = new ArrayList<>();
     private String tiempo_maximo;
@@ -45,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         rvRecetas = findViewById(R.id.rv_recetas);
         etIngredientesDisponibles = findViewById(R.id.et_ingredientes_disponibles);
         etIngredientesBloqueados = findViewById(R.id.et_ingredientes_bloqueados);
-        EditText et_tiempo = findViewById(R.id.et_tiempo);
-        tiempo_maximo = et_tiempo.getText().toString();
+        this.etTiempo = findViewById(R.id.et_tiempo);
+        tiempo_maximo = this.etTiempo.getText().toString();
 
-        et_tiempo.setOnClickListener(v -> {
+        this.etTiempo.setOnClickListener(v -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
                     (view, hourOfDay, minute) -> {
                         tiempo_maximo = String.format("%02d:%02d", hourOfDay, minute);
-                        et_tiempo.setText(tiempo_maximo);
+                        this.etTiempo.setText(tiempo_maximo);
                     }, 0, 0, true);
             timePickerDialog.show();
         });
@@ -132,17 +133,82 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: Convertir cosas seleccionadas en query
-
         Bundle queryBundle = new Bundle();
-        queryBundle.putString(RecetaAPI.QUERY_PARAM, "chicken");
+        // INGREDIENTES DISPONIBLES / A INCLUIR
+        String ingredientes = this.etIngredientesDisponibles.getText().toString();
+        if (ingredientes.isEmpty()) {
+            Toast.makeText(this, "¡No se puede comer del aire! :)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ingredientes = ingredientes.replace(" ", "");
+        queryBundle.putString(RecetaAPI.QUERY_PARAM, ingredientes);
 
-        // Parametros opcionales
-//        queryBundle.putStringArrayList(RecipeAPI.EXCLUDED_PARAM, new ArrayList<String>());
-//        queryBundle.putString(RecipeAPI.MEAL_TYPE_PARAM, "Breakfast");
-//        queryBundle.putString(RecipeAPI.CUISINE_TYPE_PARAM, "American");
-//        queryBundle.putString(RecipeAPI.TIME_RANGE_PARAM, "20");
-//        queryBundle.putString(RecipeAPI.HEALTH_PARAM, "");
+        // INGREDIENTES BLOQUEADOS
+        String ingredientesBloqueados = this.etIngredientesBloqueados.getText().toString();
+        ArrayList<String> ingBloqueados = null;
+        if (!ingredientesBloqueados.isEmpty()) {
+            Log.i(TAG, "Existen ingredientes para bloquear");
+            ingBloqueados = new ArrayList<String>();
+            ingredientesBloqueados = ingredientesBloqueados.replace(" ", "");
+            String[] strSplit = ingredientesBloqueados.split(",");
+            for (String s : strSplit) {
+                ingBloqueados.add(s);
+            }
+        }
+        queryBundle.putStringArrayList(RecetaAPI.EXCLUDED_PARAM, ingBloqueados);
+
+
+        // TIEMPO MAXIMO
+        String timeRange = "1";
+        String maxTime = this.etTiempo.getText().toString();
+        if (!maxTime.isEmpty()) {
+            Log.i(TAG, "Hay tiempo maximo");
+            timeRange += ("-" + maxTime);
+        }
+        queryBundle.putString(RecetaAPI.TIME_RANGE_PARAM, timeRange);
+
+        // TIPOS DE COMIDA
+        String mealType = "";
+//      mealType = this.etTipoComida.getText().toString();
+        if (mealType.isEmpty()) {
+            mealType = null;
+        }
+        else {
+            Log.i(TAG, "Hay tipos de comida seleccionado");
+        }
+        queryBundle.putString(RecetaAPI.MEAL_TYPE_PARAM, mealType);
+
+        // TIPOS DE COCINA
+        String cuisineType = "";
+//        cuisineType = this.etTipoCocina.getText().toString();
+        cuisineType.replace(" ", "");
+        ArrayList<String> tiposCocina = null;
+
+        if (!cuisineType.isEmpty()) {
+            Log.i(TAG, "Hay tipos de comida seleccionados");
+            tiposCocina = new ArrayList<String>();
+            String[] strSplit = cuisineType.split(",");
+            for (String s : strSplit) {
+                tiposCocina.add(s);
+            }
+        }
+        queryBundle.putStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM, tiposCocina);
+
+        // ALERGENOS
+        String health = "";
+//        health = this.etAlergenos.getText().toString();
+        health.replace(" ", "");
+        ArrayList<String> alergenos = null;
+
+        if (!health.isEmpty()) {
+            Log.i(TAG, "Hay alergias seleccionadas");
+            alergenos = new ArrayList<String>();
+            String[] strSplit = health.split(",");
+            for (String s : strSplit) {
+                alergenos.add(s);
+            }
+        }
+        queryBundle.putStringArrayList(RecetaAPI.HEALTH_PARAM, alergenos);
 
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
