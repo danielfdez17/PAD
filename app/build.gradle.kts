@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "es.ucm.fdi.saborearte"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "es.ucm.fdi.saborearte"

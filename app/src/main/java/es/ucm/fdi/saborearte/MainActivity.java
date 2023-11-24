@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
+
 
 
 import androidx.loader.app.LoaderManager;
@@ -21,6 +23,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+//import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +39,16 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvRecetas;
     private List<Receta> recetas = new ArrayList<>();
     private String tiempo_maximo;
+    private List<String> lista_ingredientes;
+    private List<String> lista_bloqueados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_SaboreArte);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        lista_ingredientes= new ArrayList<>();
+        lista_bloqueados=new ArrayList<>();
         rvRecetas = findViewById(R.id.rv_recetas);
         etIngredientesDisponibles = findViewById(R.id.et_ingredientes_disponibles);
         etIngredientesBloqueados = findViewById(R.id.et_ingredientes_bloqueados);
@@ -69,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         }
         recetaAdapter = new RecetaResultListAdapter(this, new ArrayList<>());
 
-        // Configuración del Spinner para las opciones de dieta
-        MaterialSpinner spinnerDietaOpciones = findViewById(R.id.spinner_dieta_opciones);
+        //Configuración del Spinner para las opciones de dieta
+       MaterialSpinner spinnerDietaOpciones = findViewById(R.id.spinner_dieta_opciones);
         spinnerDietaOpciones.setItems("dairy-free", "gluten-free", "peanut-free", "pescatarian", "vegan", "vegetarian");
     }
 
@@ -78,11 +84,15 @@ public class MainActivity extends AppCompatActivity {
         final ChipGroup chipGroupIngredientesDisponibles = findViewById(R.id.chip_group_ingredientes_disponibles);
         etIngredientesDisponibles.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                String nuevoIngrediente = etIngredientesDisponibles.getText().toString().trim();
-                if (!nuevoIngrediente.isEmpty()) {
-                    createChip(nuevoIngrediente, chipGroupIngredientesDisponibles, etIngredientesDisponibles, false);
-                    return true;
+                String ingString = etIngredientesDisponibles.getText().toString().trim();
+                String[] ingredientes = ingString.split(",");
+                for(String s : ingredientes) {
+                    if(!lista_ingredientes.contains(s)) {
+                        lista_ingredientes.add(s);
+                        createChip(s, chipGroupIngredientesDisponibles, etIngredientesDisponibles, false);
+                    }
                 }
+                return true;
             }
             return false;
         });
@@ -92,11 +102,15 @@ public class MainActivity extends AppCompatActivity {
         final ChipGroup chipGroupIngredientesBloqueados = findViewById(R.id.chip_group_ingredientes_bloqueados);
         etIngredientesBloqueados.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                String nuevoIngredienteBloqueado = etIngredientesBloqueados.getText().toString().trim();
-                if (!nuevoIngredienteBloqueado.isEmpty()) {
-                    createChip(nuevoIngredienteBloqueado, chipGroupIngredientesBloqueados, etIngredientesBloqueados, true);
-                    return true;
+                String ingString = etIngredientesBloqueados.getText().toString().trim();
+                String[] ingredientes = ingString.split(",");
+                for(String s : ingredientes) {
+                    if(!lista_bloqueados.contains(s)) {
+                        lista_bloqueados.add(s);
+                        createChip(s, chipGroupIngredientesBloqueados, etIngredientesDisponibles, false);
+                    }
                 }
+                return true;
             }
             return false;
         });
@@ -111,7 +125,17 @@ public class MainActivity extends AppCompatActivity {
         }
         chip.setText(text);
         chip.setCloseIconVisible(true);
-        chip.setOnCloseIconClickListener(v -> chipGroup.removeView(chip));
+        chip.setOnCloseIconClickListener(v ->
+        {
+            if(isBloqueado){
+                lista_bloqueados.remove(text);
+            }
+            else{
+                lista_ingredientes.remove(text);
+
+            }
+            chipGroup.removeView(chip);
+        });
         chipGroup.addView(chip);
         editText.getText().clear();
     }
@@ -135,12 +159,18 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle queryBundle = new Bundle();
         // INGREDIENTES DISPONIBLES / A INCLUIR
-        String ingredientes = this.etIngredientesDisponibles.getText().toString();
-        if (ingredientes.isEmpty()) {
+
+
+        if (lista_ingredientes.isEmpty()) {
             Toast.makeText(this, "¡No se puede comer del aire! :)", Toast.LENGTH_SHORT).show();
             return;
         }
-        ingredientes = ingredientes.replace(" ", "");
+        String ingredientes="";
+        for(String s : lista_ingredientes){
+            ingredientes+=s+",";
+        }
+        ingredientes= ingredientes.substring(0,ingredientes.length()-1);
+
         queryBundle.putString(RecetaAPI.QUERY_PARAM, ingredientes);
 
         // INGREDIENTES BLOQUEADOS
@@ -148,12 +178,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> ingBloqueados = null;
         if (!ingredientesBloqueados.isEmpty()) {
             Log.i(TAG, "Existen ingredientes para bloquear");
-            ingBloqueados = new ArrayList<String>();
-            ingredientesBloqueados = ingredientesBloqueados.replace(" ", "");
-            String[] strSplit = ingredientesBloqueados.split(",");
-            for (String s : strSplit) {
+
+            for (String s : lista_bloqueados) {
                 ingBloqueados.add(s);
             }
+
         }
         queryBundle.putStringArrayList(RecetaAPI.EXCLUDED_PARAM, ingBloqueados);
 
