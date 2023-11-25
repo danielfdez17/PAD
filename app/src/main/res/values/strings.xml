@@ -13,4 +13,6 @@
     <string name="search">Generar Recetas</string>
     <string name="favorites">Ver Recetas Favoritas</string>
     <string name="internet_required">Es necesario tener internet</string>
+    <string name="dark_mode">Cambiar tema</string>
+    <string name="language">Cambiar idioma</string>
 </resources>

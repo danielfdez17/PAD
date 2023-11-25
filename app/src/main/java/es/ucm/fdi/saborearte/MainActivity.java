@@ -9,6 +9,8 @@ import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -246,6 +248,13 @@ public class MainActivity extends AppCompatActivity {
         queryBundle.putStringArrayList(RecetaAPI.HEALTH_PARAM, alergenos);
         // MainActivity.searchRecetas()
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     public void verFavoritos(View view) {
