@@ -158,34 +158,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Bundle queryBundle = new Bundle();
+
         // INGREDIENTES DISPONIBLES / A INCLUIR
-
-
         if (lista_ingredientes.isEmpty()) {
             Toast.makeText(this, "¡No se puede comer del aire! :)", Toast.LENGTH_SHORT).show();
             return;
         }
-        String ingredientes="";
-        for(String s : lista_ingredientes){
-            ingredientes+=s+",";
-        }
-        ingredientes= ingredientes.substring(0,ingredientes.length()-1);
+        String ingredientes = "";
+        for(String s : lista_ingredientes)
+            ingredientes += s + ",";
 
+        ingredientes = ingredientes.substring(0, ingredientes.length()-1);
         queryBundle.putString(RecetaAPI.QUERY_PARAM, ingredientes);
 
         // INGREDIENTES BLOQUEADOS
         String ingredientesBloqueados = this.etIngredientesBloqueados.getText().toString();
         ArrayList<String> ingBloqueados = null;
-        if (!ingredientesBloqueados.isEmpty()) {
+        if (!this.lista_bloqueados.isEmpty()) {
             Log.i(TAG, "Existen ingredientes para bloquear");
-
-            for (String s : lista_bloqueados) {
+            this.lista_bloqueados = new ArrayList<>();
+            for (String s : lista_bloqueados)
                 ingBloqueados.add(s);
-            }
-
+        }
+        else {
+            Log.i(TAG, "No se han bloqueado ingredientes");
         }
         queryBundle.putStringArrayList(RecetaAPI.EXCLUDED_PARAM, ingBloqueados);
-
 
         // TIEMPO MAXIMO
         String timeRange = "1";
@@ -195,10 +193,12 @@ public class MainActivity extends AppCompatActivity {
             String[] horasMinutos = maxTime.split(":");
             String horasStr = horasMinutos[0];
             String minutosStr = horasMinutos[1];
-            int horas = Integer.parseInt(horasStr);
-            int minutos = Integer.parseInt(minutosStr);
-            minutos += (horas * 60);
-            timeRange += ("-" + minutos);
+            if (!horasStr.equals("00") && !minutosStr.equals("00")) {
+                int horas = Integer.parseInt(horasStr);
+                int minutos = Integer.parseInt(minutosStr);
+                minutos += (horas * 60);
+                timeRange += ("-" + minutos);
+            }
         }
         queryBundle.putString(RecetaAPI.TIME_RANGE_PARAM, timeRange);
 
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         queryBundle.putStringArrayList(RecetaAPI.HEALTH_PARAM, alergenos);
-
+        // MainActivity.searchRecetas()
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
 
