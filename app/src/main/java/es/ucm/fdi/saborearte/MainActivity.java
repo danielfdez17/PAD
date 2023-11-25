@@ -192,7 +192,13 @@ public class MainActivity extends AppCompatActivity {
         String maxTime = this.etTiempo.getText().toString();
         if (!maxTime.isEmpty()) {
             Log.i(TAG, "Hay tiempo maximo");
-            timeRange += ("-" + maxTime);
+            String[] horasMinutos = maxTime.split(":");
+            String horasStr = horasMinutos[0];
+            String minutosStr = horasMinutos[1];
+            int horas = Integer.parseInt(horasStr);
+            int minutos = Integer.parseInt(minutosStr);
+            minutos += (horas * 60);
+            timeRange += ("-" + minutos);
         }
         queryBundle.putString(RecetaAPI.TIME_RANGE_PARAM, timeRange);
 
