@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> ingBloqueados = null;
         if (!this.lista_bloqueados.isEmpty()) {
             Log.i(TAG, "Existen ingredientes para bloquear");
-            this.lista_bloqueados = new ArrayList<>();
+            ingBloqueados = new ArrayList<>();
             for (String s : lista_bloqueados)
                 ingBloqueados.add(s);
         }
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             String[] horasMinutos = maxTime.split(":");
             String horasStr = horasMinutos[0];
             String minutosStr = horasMinutos[1];
-            if (!horasStr.equals("00") && !minutosStr.equals("00")) {
+            if (!horasStr.equals("00") || !minutosStr.equals("00")) {
                 int horas = Integer.parseInt(horasStr);
                 int minutos = Integer.parseInt(minutosStr);
                 minutos += (horas * 60);
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         // MainActivity.searchRecetas()
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

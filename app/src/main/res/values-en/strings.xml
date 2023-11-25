@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SaboreArte</string>
+    <string-array name="tiempos_preparacion">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>60 minutes</item>
+        <item>120 minutes</item>
+    </string-array>
+    <string name="ingredientes_incluir">Introduce available ingredients</string>
+    <string name="ingredientes_excluir">Introduce ingredients to block</string>
+    <string name="max_time">Maximun time</string>
+    <string name="search">Generate Recipes</string>
+    <string name="favorites">Show Favourites Recipes</string>
+    <string name="internet_required">Internet is required</string>
+    <string name="dark_mode">Change theme mode</string>
+    <string name="language">Change language</string>
+</resources>
