@@ -37,14 +37,20 @@ public class RecetaAPI {
 //                .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
 //                .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
 
-        for (String s : cuisineTypes) {
-            builder = builder.appendQueryParameter(CUISINE_TYPE_PARAM, s);
+        if (cuisineTypes != null) {
+            for (String s : cuisineTypes) {
+                builder = builder.appendQueryParameter(CUISINE_TYPE_PARAM, s);
+            }
         }
-        for (String s : excludedIngredientes) {
-            builder = builder.appendQueryParameter(EXCLUDED_PARAM, s);
+        if (excludedIngredientes != null) {
+            for (String s : excludedIngredientes) {
+                builder = builder.appendQueryParameter(EXCLUDED_PARAM, s);
+            }
         }
-        for (String s : healthOptions) {
-            builder = builder.appendQueryParameter(HEALTH_PARAM, s);
+        if (healthOptions != null) {
+            for (String s : healthOptions) {
+                builder = builder.appendQueryParameter(HEALTH_PARAM, s);
+            }
         }
 
         Uri builtURI = builder.build();
