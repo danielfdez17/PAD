@@ -1,4 +1,6 @@
 package es.ucm.fdi.saborearte;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receta {
-
+    private static final String TAG = Receta.class.getSimpleName();
     private final String titulo;
     private final String image_uri;
     private final String source_uri;    // enlace a instrucciones
@@ -85,7 +87,8 @@ public class Receta {
             ArrayList<String> ingredients = new ArrayList<>();
             JSONArray ingredientsArray = recipe.getJSONArray("ingredients");
             for(int x = 0; x < ingredientsArray.length(); x++){
-                ingredients.add(ingredientsArray.getString(i));
+                JSONObject ingredientInfo = ingredientsArray.getJSONObject(x);
+                ingredients.add(ingredientInfo.getString("text"));
             }
 
             // Health Labels

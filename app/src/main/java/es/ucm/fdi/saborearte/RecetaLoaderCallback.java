@@ -22,33 +22,18 @@ public class RecetaLoaderCallback implements LoaderManager.LoaderCallbacks<List<
     public Loader<List<Receta>> onCreateLoader(int id, Bundle args) {
         // INGREDIENTES DISPONIBLES
         String queryString = args.getString(RecetaAPI.QUERY_PARAM);
-        String timeString = null;
-        String mealtype = null;
-        ArrayList<String> listaBloqueados = null;
-        ArrayList<String> tiposDeCocina = null;
-        ArrayList<String> healthOptions = null;
-        // RANGO DE TIEMPO
-        if (args.containsKey(RecetaAPI.TIME_RANGE_PARAM)){
-            timeString = args.getString(RecetaAPI.TIME_RANGE_PARAM);
-        }
         // INGREDIENTES EXCLUIDOS
-        if (args.containsKey(RecetaAPI.EXCLUDED_PARAM)){
-            listaBloqueados = args.getStringArrayList(RecetaAPI.EXCLUDED_PARAM);
-        }
+        ArrayList<String> listaBloqueados = args.getStringArrayList(RecetaAPI.EXCLUDED_PARAM);
+        // RANGO DE TIEMPO
+        String timeString = args.getString(RecetaAPI.TIME_RANGE_PARAM);
         // ALERGENOS
-        if (args.containsKey(RecetaAPI.HEALTH_PARAM)){
-            healthOptions = args.getStringArrayList(RecetaAPI.HEALTH_PARAM);
-        }
+        String healthOption = args.getString(RecetaAPI.HEALTH_PARAM);
         // TIPO DE COMIDA
-        if (args.containsKey(RecetaAPI.MEAL_TYPE_PARAM)){
-            mealtype = args.getString(RecetaAPI.MEAL_TYPE_PARAM);
-        }
+        String mealtype = args.getString(RecetaAPI.MEAL_TYPE_PARAM);
         // TIPO DE COCINA
-        if (args.containsKey(RecetaAPI.CUISINE_TYPE_PARAM)){
-            tiposDeCocina = args.getStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM);
-        }
+        ArrayList<String> tiposDeCocina = args.getStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM);
 
-        return new RecetaLoader(mainActivity, queryString, listaBloqueados, timeString, mealtype, tiposDeCocina, healthOptions);
+        return new RecetaLoader(mainActivity, queryString, listaBloqueados, timeString, mealtype, tiposDeCocina, healthOption);
     }
 
     @Override

@@ -10,7 +10,16 @@
     </string-array>
     <string name="ingredientes_incluir">Introduce available ingredients</string>
     <string name="ingredientes_excluir">Introduce ingredients to block</string>
-    <string name="max_time">Maximun time</string>
+    <string name="max_time">Maximum time</string>
+    <string-array name="health_options">
+        <item></item>
+        <item>dairy-free</item>
+        <item>gluten-free</item>
+        <item>peanut-free</item>
+        <item>pescatarian</item>
+        <item>vegan</item>
+        <item>vegetarian</item>
+    </string-array>
     <string name="search">Generate Recipes</string>
     <string name="favorites">Show Favourites Recipes</string>
     <string name="internet_required">Internet is required</string>

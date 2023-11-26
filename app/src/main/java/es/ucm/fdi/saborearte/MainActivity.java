@@ -8,10 +8,12 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -78,25 +80,42 @@ public class MainActivity extends AppCompatActivity {
         recetaAdapter = new RecetaResultListAdapter(this, new ArrayList<>());
 
         //Configuración del Spinner para las opciones de dieta
-       MaterialSpinner spinnerDietaOpciones = findViewById(R.id.spinner_dieta_opciones);
-        spinnerDietaOpciones.setItems("dairy-free", "gluten-free", "peanut-free", "pescatarian", "vegan", "vegetarian");
+        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner_dieta_opciones);
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.health_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears.
+        spinner.setAdapter(adapter);    // Apply the adapter to the spinner.
+    }
+    private void createChips(ChipGroup chipGroupIngredientesDisponibles, EditText eText, List<String> list){
+        String ingString = eText.getText().toString().trim();
+        if(ingString.isEmpty())
+            return;
+        String[] ingredientes = ingString.split(",");
+        for(String s : ingredientes) {
+            if(!list.contains(s)) {
+                list.add(s);
+                createChip(s, chipGroupIngredientesDisponibles, eText, false);
+            }
+        }
     }
 
     private void setupChipsForIngredientesDisponibles() {
         final ChipGroup chipGroupIngredientesDisponibles = findViewById(R.id.chip_group_ingredientes_disponibles);
         etIngredientesDisponibles.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                String ingString = etIngredientesDisponibles.getText().toString().trim();
-                String[] ingredientes = ingString.split(",");
-                for(String s : ingredientes) {
-                    if(!lista_ingredientes.contains(s)) {
-                        lista_ingredientes.add(s);
-                        createChip(s, chipGroupIngredientesDisponibles, etIngredientesDisponibles, false);
-                    }
-                }
+                createChips(chipGroupIngredientesDisponibles, etIngredientesDisponibles, lista_ingredientes);
                 return true;
             }
             return false;
+        });
+        etIngredientesDisponibles.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                createChips(chipGroupIngredientesDisponibles, etIngredientesDisponibles, lista_ingredientes);
+            }
         });
     }
 
@@ -104,17 +123,15 @@ public class MainActivity extends AppCompatActivity {
         final ChipGroup chipGroupIngredientesBloqueados = findViewById(R.id.chip_group_ingredientes_bloqueados);
         etIngredientesBloqueados.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                String ingString = etIngredientesBloqueados.getText().toString().trim();
-                String[] ingredientes = ingString.split(",");
-                for(String s : ingredientes) {
-                    if(!lista_bloqueados.contains(s)) {
-                        lista_bloqueados.add(s);
-                        createChip(s, chipGroupIngredientesBloqueados, etIngredientesDisponibles, false);
-                    }
-                }
+                createChips(chipGroupIngredientesBloqueados, etIngredientesBloqueados, lista_bloqueados);
                 return true;
             }
             return false;
+        });
+        etIngredientesBloqueados.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                createChips(chipGroupIngredientesBloqueados, etIngredientesBloqueados, lista_bloqueados);
+            }
         });
     }
 
@@ -134,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 lista_ingredientes.remove(text);
-
             }
             chipGroup.removeView(chip);
         });
@@ -174,13 +190,13 @@ public class MainActivity extends AppCompatActivity {
         queryBundle.putString(RecetaAPI.QUERY_PARAM, ingredientes);
 
         // INGREDIENTES BLOQUEADOS
-        String ingredientesBloqueados = this.etIngredientesBloqueados.getText().toString();
-        ArrayList<String> ingBloqueados = null;
+        ArrayList<String> ingBloqueados = new ArrayList<>();
         if (!this.lista_bloqueados.isEmpty()) {
             Log.i(TAG, "Existen ingredientes para bloquear");
             ingBloqueados = new ArrayList<>();
             for (String s : lista_bloqueados)
                 ingBloqueados.add(s);
+            Log.i(TAG, "Ingredientes bloqueados: " + ingBloqueados);
         }
         else {
             Log.i(TAG, "No se han bloqueado ingredientes");
@@ -201,7 +217,10 @@ public class MainActivity extends AppCompatActivity {
                 minutos += (horas * 60);
                 timeRange += ("-" + minutos);
             }
+        } else {
+            timeRange += "+";
         }
+        Log.i(TAG, "Time range: " + timeRange);
         queryBundle.putString(RecetaAPI.TIME_RANGE_PARAM, timeRange);
 
         // TIPOS DE COMIDA
@@ -219,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         String cuisineType = "";
 //        cuisineType = this.etTipoCocina.getText().toString();
         cuisineType.replace(" ", "");
-        ArrayList<String> tiposCocina = null;
+        ArrayList<String> tiposCocina = new ArrayList<>();
 
         if (!cuisineType.isEmpty()) {
             Log.i(TAG, "Hay tipos de comida seleccionados");
@@ -232,21 +251,11 @@ public class MainActivity extends AppCompatActivity {
         queryBundle.putStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM, tiposCocina);
 
         // ALERGENOS
-        String health = "";
-//        health = this.etAlergenos.getText().toString();
-        health.replace(" ", "");
-        ArrayList<String> alergenos = null;
+        MaterialSpinner dietaSpinner = findViewById(R.id.spinner_dieta_opciones);
+        String health = dietaSpinner.getText().toString();
+        Log.i(TAG, "Alergias seleccionadas: " + health);
+        queryBundle.putString(RecetaAPI.HEALTH_PARAM, health);
 
-        if (!health.isEmpty()) {
-            Log.i(TAG, "Hay alergias seleccionadas");
-            alergenos = new ArrayList<String>();
-            String[] strSplit = health.split(",");
-            for (String s : strSplit) {
-                alergenos.add(s);
-            }
-        }
-        queryBundle.putStringArrayList(RecetaAPI.HEALTH_PARAM, alergenos);
-        // MainActivity.searchRecetas()
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
 

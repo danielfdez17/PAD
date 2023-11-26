@@ -11,6 +11,15 @@
     <string name="ingredientes_incluir">Introduce ingredientes disponibles</string>
     <string name="ingredientes_excluir">Introduce ingredientes a bloquear</string>
     <string name="max_time">Tiempo máximo</string>
+    <string-array name="health_options">
+        <item></item>
+        <item>dairy-free</item>
+        <item>gluten-free</item>
+        <item>peanut-free</item>
+        <item>pescatarian</item>
+        <item>vegan</item>
+        <item>vegetarian</item>
+    </string-array>
     <string name="search">Generar Recetas</string>
     <string name="favorites">Ver Recetas Favoritas</string>
     <string name="internet_required">Es necesario tener internet</string>

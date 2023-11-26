@@ -29,27 +29,26 @@ public class RecetaAPI {
 //    private final String FIELDS_PARAM = "field=uri&field=label&field=image&field=images&field=source&field=url&field=ingredientLines&field=calories&field=totalTime&field=cuisineType&field=mealType&field=healthLabels";
     private final String API_ENDPOINT = "https://api.edamam.com/api/recipes/v2?type=public";
 
-    public List<Receta> getRecetas(String ingredients, ArrayList<String> cuisineTypes, String mealType, String timeRange, ArrayList<String> excludedIngredientes, ArrayList<String> healthOptions) {
+    public List<Receta> getRecetas(String ingredients, ArrayList<String> excludedIngredientes, String timeRange, ArrayList<String> cuisineTypes, String mealType, String healthOption) {
         Uri.Builder builder = Uri.parse(API_ENDPOINT).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, ingredients)
                 .appendQueryParameter(APP_ID_PARAM, API_APP)
-                .appendQueryParameter(APP_KEY_PARAM, API_KEY);
+                .appendQueryParameter(APP_KEY_PARAM, API_KEY)
+                .appendQueryParameter(QUERY_PARAM, ingredients)
 //                .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
-//                .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
+                .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
 
-        if (cuisineTypes != null) {
-            for (String s : cuisineTypes) {
-                builder = builder.appendQueryParameter(CUISINE_TYPE_PARAM, s);
-            }
+        if(!healthOption.isEmpty()){
+            builder.appendQueryParameter(HEALTH_PARAM, healthOption);
         }
-        if (excludedIngredientes != null) {
+
+        if (!excludedIngredientes.isEmpty()) {
             for (String s : excludedIngredientes) {
                 builder = builder.appendQueryParameter(EXCLUDED_PARAM, s);
             }
         }
-        if (healthOptions != null) {
-            for (String s : healthOptions) {
-                builder = builder.appendQueryParameter(HEALTH_PARAM, s);
+        if (!cuisineTypes.isEmpty()) {
+            for (String s : cuisineTypes) {
+                builder = builder.appendQueryParameter(CUISINE_TYPE_PARAM, s);
             }
         }
 
