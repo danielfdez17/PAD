@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         this.etTiempo = findViewById(R.id.et_tiempo);
         tiempo_maximo = this.etTiempo.getText().toString();
 
+
         this.etTiempo.setOnClickListener(v -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
                     (view, hourOfDay, minute) -> {
@@ -270,16 +271,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection.
-        switch (item.getItemId()) {
-            case R.id.:
-                Toast.makeText(this, "¡Modo oscuro seleccionado! :)", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.cambio_idioma:
-                Toast.makeText(this, "¡Cambio idioma seleccionado! :)", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.cambioIdioma) {
+            Toast.makeText(this, "¡Cambio idioma seleccionado! :)", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        else if (item.getItemId() == R.id.modoOscuro) {
+            Toast.makeText(this, "¡Modo oscuro seleccionado! :)", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     public void verFavoritos(View view) {
