@@ -3,12 +3,16 @@ package es.ucm.fdi.saborearte;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +36,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -272,13 +277,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection.
         if (item.getItemId() == R.id.cambioCastellano) {
-            LocaleHelper.setLocale(this, "es");
+//            LocaleHelper.setLocale(this, "es");
+            setLanguage("es");
             Toast.makeText(this, "¡Cambio al castellano! :)", Toast.LENGTH_SHORT).show();
             recreate();
             return true;
         }
         else if (item.getItemId() == R.id.cambioIngles) {
-            LocaleHelper.setLocale(this, "en");
+//            LocaleHelper.setLocale(this, "fr");
+            setLanguage("fr");
             Toast.makeText(this, "¡Cambio al ingles! :)", Toast.LENGTH_SHORT).show();
             recreate();
             return true;
@@ -290,6 +297,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "¡Cambio a modo claro! :)", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    private void setLanguage(String language) {
+        Locale locale = new Locale(language);
+        Resources res = getResources();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(locale);
+//        recreate();
+        this.createConfigurationContext(conf);
     }
 
     public void verFavoritos(View view) {
