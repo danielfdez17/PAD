@@ -12,6 +12,7 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -264,6 +265,21 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection.
+        switch (item.getItemId()) {
+            case R.id.:
+                Toast.makeText(this, "¡Modo oscuro seleccionado! :)", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.cambio_idioma:
+                Toast.makeText(this, "¡Cambio idioma seleccionado! :)", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void verFavoritos(View view) {
