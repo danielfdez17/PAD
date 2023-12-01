@@ -23,7 +23,7 @@ public class LocaleHelper {
         // for devices having lower version of android os
         return updateResourcesLegacy(context, language);
     }
-
+    @SuppressWarnings("deprecation")
     private static void persist(Context context, String language) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -44,7 +44,6 @@ public class LocaleHelper {
 
         return context.createConfigurationContext(configuration);
     }
-
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {

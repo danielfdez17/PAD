@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SaboreArte</string>
+    <string name="selected_language">Spanish</string>
     <string-array name="tiempos_preparacion">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -23,6 +24,8 @@
     <string name="search">Generate Recipes</string>
     <string name="favorites">Show Favourites Recipes</string>
     <string name="internet_required">Internet is required</string>
-    <string name="dark_mode">Change theme mode</string>
-    <string name="language">Change language</string>
+    <string name="night_mode">Night mode</string>
+    <string name="day_mode">Day mode</string>
+    <string name="lang_es">Spanish</string>
+    <string name="lang_en">English</string>
 </resources>

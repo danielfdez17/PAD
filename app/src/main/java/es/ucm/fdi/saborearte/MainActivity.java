@@ -271,13 +271,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection.
-        if (item.getItemId() == R.id.cambioIdioma) {
-            Toast.makeText(this, "¡Cambio idioma seleccionado! :)", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.cambioCastellano) {
+            LocaleHelper.setLocale(this, "es");
+            Toast.makeText(this, "¡Cambio al castellano! :)", Toast.LENGTH_SHORT).show();
+            recreate();
+            return true;
+        }
+        else if (item.getItemId() == R.id.cambioIngles) {
+            LocaleHelper.setLocale(this, "en");
+            Toast.makeText(this, "¡Cambio al ingles! :)", Toast.LENGTH_SHORT).show();
+            recreate();
             return true;
         }
         else if (item.getItemId() == R.id.modoOscuro) {
-            Toast.makeText(this, "¡Modo oscuro seleccionado! :)", Toast.LENGTH_SHORT).show();
-            return true;
+            Toast.makeText(this, "¡Cambio a modo oscuro! :)", Toast.LENGTH_SHORT).show();
+        }
+        else if (item.getItemId() == R.id.modoClaro) {
+            Toast.makeText(this, "¡Cambio a modo claro! :)", Toast.LENGTH_SHORT).show();
         }
         return false;
     }

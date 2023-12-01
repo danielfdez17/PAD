@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SaboreArte</string>
+    <string name="selected_language">Castellano</string>
+
     <string-array name="tiempos_preparacion">
         <item>15 minutos</item>
         <item>30 minutos</item>
@@ -23,6 +25,9 @@
     <string name="search">Generar Recetas</string>
     <string name="favorites">Ver Recetas Favoritas</string>
     <string name="internet_required">Es necesario tener internet</string>
-    <string name="dark_mode">Cambiar tema</string>
-    <string name="language">Cambiar idioma</string>
+    <string name="night_mode">Modo oscuro</string>
+    <string name="day_mode">Modo claro</string>
+    <string name="lang_es">Castellano</string>
+    <string name="lang_en">Ingles</string>
+
 </resources>
