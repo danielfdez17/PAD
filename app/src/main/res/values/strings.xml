@@ -31,5 +31,7 @@
     <string name="day_mode">Modo claro</string>
     <string name="lang_es">Castellano</string>
     <string name="lang_en">Ingles</string>
-
+    <string name="switch_language">Change language</string>
+    <string name="switch_mode">Change theme</string>
+    <string name="preferences">Preferenciass</string>
 </resources>

@@ -3,6 +3,7 @@ package es.ucm.fdi.saborearte;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -10,6 +11,8 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.preference.SwitchPreference;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
@@ -35,6 +38,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 //import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private String tiempo_maximo;
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
-    private String Idioma ="fr";
+    private String Idioma = "fr";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Theme_SaboreArte);
 
         super.onCreate(savedInstanceState);
-        super.onPause();
+        this.onPause();
 
 
         setContentView(R.layout.activity_main);
@@ -283,25 +287,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       int id=item.getItemId();
-       if(id==R.id.cambioCastellano){
-           setLanguage("es");
-           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
-           onPause();
-           return true;
-       }
-       else if(id==R.id.cambioIngles){
-           setLanguage("fr");
-           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
-           onPause();
-           return true;
-       }
-       else if(id==R.id.modoClaro){
-           Toast.makeText(this,"Day Mode",Toast.LENGTH_SHORT).show();
-           return true;
-       }
-       else if(id==R.id.modoOscuro){
-           Toast.makeText(this,"Dark Modes",Toast.LENGTH_SHORT).show();
+       int id = item.getItemId();
+//       if(id==R.id.cambioCastellano){
+//           setLanguage("es");
+//           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
+//           onPause();
+//           return true;
+//       }
+//       else if(id==R.id.cambioIngles){
+//           setLanguage("fr");
+//           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
+//           onPause();
+//           return true;
+//       }
+//       else if(id==R.id.modoClaro){
+//           Toast.makeText(this,"Day Mode",Toast.LENGTH_SHORT).show();
+//           return true;
+//       }
+//       else if(id==R.id.modoOscuro){
+//           Toast.makeText(this,"Dark Modes",Toast.LENGTH_SHORT).show();
+//           return true;
+//       }
+//       else
+           if (id == R.id.preferences) {
+           Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+           startActivity(intent);
            return true;
        }
        return false;
@@ -322,13 +332,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Ver favoritos btn clicked");
     }
     @Override
+    @SuppressWarnings("deprecating")
     protected void onPause() {
         super.onPause();
-        SharedPreferences mPreferences =
-                getSharedPreferences("Configuraciones", Context.MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor =
-                mPreferences.edit();
-        preferencesEditor.putString("Idioma",Idioma);
+        SharedPreferences mPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        View tema = findViewById(R.id.tema), idioma = findViewById(R.id.idioma);
+        CharSequence cs_theme = getSwitchTextOff();
+        preferencesEditor.putString("Idioma", Idioma);
         preferencesEditor.apply();
     }
 }

@@ -23,11 +23,16 @@
         <item>vegetarian</item>
     </string-array>
     <string name="search">Generar Recetas</string>
+    <string name="obligatorio">Obligatorio</string>
+    <string name="opcional">Opcional</string>
     <string name="favorites">Ver Recetas Favoritas</string>
     <string name="internet_required">Es necesario tener internet</string>
     <string name="night_mode">Modo oscuro</string>
     <string name="day_mode">Modo claro</string>
     <string name="lang_es">Castellano</string>
     <string name="lang_en">Ingles</string>
+    <string name="switch_language">Cambiar de idioma</string>
+    <string name="switch_mode">Cambiar tema</string>
+    <string name="preferences">Preferences</string>
 
 </resources>

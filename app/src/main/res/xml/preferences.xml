@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:id="@+id/tema"
+        android:key="switch_mode"
+        android:title="@string/switch_mode" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:id="@+id/idioma"
+        android:key="switch_language"
+        android:title="@string/switch_language" />
+</PreferenceScreen>
