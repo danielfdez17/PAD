@@ -275,37 +275,36 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection.
-        if (item.getItemId() == R.id.cambioCastellano) {
-//            LocaleHelper.setLocale(this, "es");
-            setLanguage("es");
-            Toast.makeText(this, "¡Cambio al castellano! :)", Toast.LENGTH_SHORT).show();
-            recreate();
-            return true;
-        }
-        else if (item.getItemId() == R.id.cambioIngles) {
-//            LocaleHelper.setLocale(this, "fr");
-            setLanguage("fr");
-            Toast.makeText(this, "¡Cambio al ingles! :)", Toast.LENGTH_SHORT).show();
-            recreate();
-            return true;
-        }
-        else if (item.getItemId() == R.id.modoOscuro) {
-            Toast.makeText(this, "¡Cambio a modo oscuro! :)", Toast.LENGTH_SHORT).show();
-        }
-        else if (item.getItemId() == R.id.modoClaro) {
-            Toast.makeText(this, "¡Cambio a modo claro! :)", Toast.LENGTH_SHORT).show();
-        }
-        return false;
+       int id=item.getItemId();
+       if(id==R.id.cambioCastellano){
+           setLanguage("es");
+           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       else if(id==R.id.cambioIngles){
+           setLanguage("fr");
+           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       else if(id==R.id.modoClaro){
+           Toast.makeText(this,"Day Mode",Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       else if(id==R.id.modoOscuro){
+           Toast.makeText(this,"Dark Modes",Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       return false;
     }
 
     private void setLanguage(String language) {
         Locale locale = new Locale(language);
-        Resources res = getResources();
-        Configuration conf = res.getConfiguration();
+        Locale.setDefault(locale);
+        Resources resourses=getResources();
+        Configuration conf=resourses.getConfiguration();
         conf.setLocale(locale);
-//        recreate();
-        this.createConfigurationContext(conf);
+        getBaseContext().getResources().updateConfiguration(conf,resourses.getDisplayMetrics());
+        recreate();
     }
 
     public void verFavoritos(View view) {

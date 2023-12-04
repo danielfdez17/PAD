@@ -34,7 +34,7 @@ public class RecetaAPI {
                 .appendQueryParameter(APP_ID_PARAM, API_APP)
                 .appendQueryParameter(APP_KEY_PARAM, API_KEY)
                 .appendQueryParameter(QUERY_PARAM, ingredients)
-//                .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
+//              .appendQueryParameter(MEAL_TYPE_PARAM, mealType)
                 .appendQueryParameter(TIME_RANGE_PARAM, timeRange);
 
         if(!healthOption.isEmpty()){
