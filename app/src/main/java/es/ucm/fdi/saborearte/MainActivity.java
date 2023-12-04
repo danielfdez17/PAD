@@ -3,6 +3,7 @@ package es.ucm.fdi.saborearte;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -51,11 +52,17 @@ public class MainActivity extends AppCompatActivity {
     private String tiempo_maximo;
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
+    private String Idioma ="fr";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setTheme(R.style.Theme_SaboreArte);
+
         super.onCreate(savedInstanceState);
+        super.onPause();
+
+
         setContentView(R.layout.activity_main);
         lista_ingredientes= new ArrayList<>();
         lista_bloqueados=new ArrayList<>();
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears.
         spinner.setAdapter(adapter);    // Apply the adapter to the spinner.
+
     }
     private void createChips(ChipGroup chipGroupIngredientesDisponibles, EditText eText, List<String> list){
         String ingString = eText.getText().toString().trim();
@@ -279,11 +287,13 @@ public class MainActivity extends AppCompatActivity {
        if(id==R.id.cambioCastellano){
            setLanguage("es");
            Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
+           onPause();
            return true;
        }
        else if(id==R.id.cambioIngles){
            setLanguage("fr");
            Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
+           onPause();
            return true;
        }
        else if(id==R.id.modoClaro){
@@ -298,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setLanguage(String language) {
+        Idioma=language;
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Resources resourses=getResources();
@@ -310,4 +321,15 @@ public class MainActivity extends AppCompatActivity {
     public void verFavoritos(View view) {
         Log.i(TAG, "Ver favoritos btn clicked");
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences mPreferences =
+                getSharedPreferences("Configuraciones", Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor =
+                mPreferences.edit();
+        preferencesEditor.putString("Idioma",Idioma);
+        preferencesEditor.apply();
+    }
 }
+
