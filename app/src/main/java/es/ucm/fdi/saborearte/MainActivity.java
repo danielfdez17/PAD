@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
     private String Idioma = "fr";
+    private boolean isCastellanoActivo, isInglesActivo, isOscuroActivo, isClaroActivo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,24 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Theme_SaboreArte);
 
         super.onCreate(savedInstanceState);
-        this.onPause();
+
+        // Recuperar pregerencias
+        SharedPreferences mPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        this.isCastellanoActivo = mPreferences.getBoolean("key_castellano", true);
+        this.isInglesActivo = mPreferences.getBoolean("key_ingles", false);
+        this.isOscuroActivo = mPreferences.getBoolean("key_oscuro", false);
+        this.isClaroActivo = mPreferences.getBoolean("key_claro", true);
+        if (isCastellanoActivo) {
+            setLanguage("es");
+        } else if (isInglesActivo) {
+            setLanguage("fr");
+        }
+        if (isOscuroActivo) {
+
+        }
+        else if (isClaroActivo) {
+
+        }
 
 
         setContentView(R.layout.activity_main);
@@ -335,12 +353,27 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("deprecating")
     protected void onPause() {
         super.onPause();
-        SharedPreferences mPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        View tema = findViewById(R.id.tema), idioma = findViewById(R.id.idioma);
-        CharSequence cs_theme = getSwitchTextOff();
-        preferencesEditor.putString("Idioma", Idioma);
-        preferencesEditor.apply();
+//        SharedPreferences mPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+//        boolean isCastellanoActivo = mPreferences.getBoolean("key_castellano", true);
+//        boolean isInglesActivo = mPreferences.getBoolean("key_ingles", false);
+//        boolean isOscuroActivo = mPreferences.getBoolean("key_oscuro", false);
+//        boolean isClaroActivo = mPreferences.getBoolean("key_claro", true);
+//        if (isCastellanoActivo) {
+//            setLanguage("es");
+//        } else if (isInglesActivo) {
+//            setLanguage("fr");
+//        }
+//        if (isOscuroActivo) {
+//
+//        }
+//        else if (isClaroActivo) {
+//
+//        }
+//        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+////        View tema = findViewById(R.id.tema), idioma = findViewById(R.id.idioma);
+////        CharSequence cs_theme = getSwitchTextOff();
+//        preferencesEditor.putString("Idioma", Idioma);
+//        preferencesEditor.apply();
     }
 }
 

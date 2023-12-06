@@ -33,6 +33,10 @@
     <string name="lang_en">Ingles</string>
     <string name="switch_language">Cambiar de idioma</string>
     <string name="switch_mode">Cambiar tema</string>
-    <string name="preferences">Preferences</string>
+    <string name="preferences">Preferencias</string>
+    <string name="cb_castellano">Cambiar idioma al castellano</string>
+    <string name="cb_ingles">Cambiar idioma al inglés</string>
+    <string name="cb_oscuro">Cambiar al modo oscuro</string>
+    <string name="cb_claro">Cambiar al modo claro</string>
 
 </resources>

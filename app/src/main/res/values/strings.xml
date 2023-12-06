@@ -33,5 +33,9 @@
     <string name="lang_en">Ingles</string>
     <string name="switch_language">Change language</string>
     <string name="switch_mode">Change theme</string>
-    <string name="preferences">Preferenciass</string>
+    <string name="preferences">Preferencias</string>
+    <string name="cb_castellano">Change language to Spanish</string>
+    <string name="cb_ingles">Change language to English</string>
+    <string name="cb_oscuro">Change to night mode</string>
+    <string name="cb_claro">Change to day mode</string>
 </resources>
