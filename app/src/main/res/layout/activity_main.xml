@@ -126,18 +126,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/button_gradient"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:onClick="searchRecetas"
         android:text="@string/search"
         app:backgroundTint="@null" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recetas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_ver_favoritas"

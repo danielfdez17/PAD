@@ -5,10 +5,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Receta {
+public class Receta implements Serializable {
     private static final String TAG = Receta.class.getSimpleName();
     private final String titulo;
     private final String image_uri;
@@ -18,10 +19,10 @@ public class Receta {
     private final String cuisine;   // pais
     private final String mealTypes; // comida/cena/etc...
     private final ArrayList<String> healthLabels;
-
+    private final ArrayList<String> instructions;
 
     // Constructor
-    public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes, ArrayList<String> healthLabels) {
+    public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes, ArrayList<String> healthLabels, ArrayList<String> instructions) {
         this.titulo = titulo;
         this.image_uri = image_uri;
         this.source_uri = source_uri;
@@ -30,39 +31,48 @@ public class Receta {
         this.cuisine = cuisine;
         this.mealTypes = mealTypes;
         this.healthLabels = healthLabels;
+        this.instructions = instructions;
     }
     // Getters
     public String getTitulo() {
         return titulo;
     }
-
     public String getImage_uri() {
         return image_uri;
     }
-
     public String getSource_uri() {
         return source_uri;
     }
-
-    public ArrayList<String> getIngredientes() {
-        return ingredientes;
-    }
-
     public int getTiempoPreparacion() {
         return tiempoPreparacion;
     }
-
     public String getCuisine() {
         return cuisine;
     }
-
     public String getMealTypes() {
         return mealTypes;
     }
     public ArrayList<String> getHealthLabels() {
         return healthLabels;
     }
-
+    public String getIngredientes() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < ingredientes.size(); i++){
+            sb.append("- " + ingredientes.get(i));
+            sb.append("\n");
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+    public String getInstructions() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < instructions.size(); i++){
+            sb.append((i + 1) + ". " + instructions.get(i));
+            sb.append("\n");
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
     public static List<Receta> fromJsonResponse(String jsonStringList) throws JSONException {
         if(jsonStringList == null)
             return null;
@@ -95,7 +105,7 @@ public class Receta {
             ArrayList<String> healthLabels = new ArrayList<>();
             JSONArray healthLabelsArray = recipe.getJSONArray("healthLabels");
             for(int x = 0; x < healthLabelsArray.length(); x++){
-                healthLabels.add(healthLabelsArray.getString(i));
+                healthLabels.add(healthLabelsArray.getString(x));
             }
             // Tiempo
             int total_time = recipe.getInt("totalTime");
@@ -104,7 +114,14 @@ public class Receta {
             // Tipo
             String mealTypes = recipe.getJSONArray("mealType").getString(0);
 
-            recetas.add(new Receta(title, image_uri, source_uri, ingredients, total_time, cuisine, mealTypes, healthLabels));
+            // Instructions
+            ArrayList<String> instructions = new ArrayList<>();
+            JSONArray instructionsArray = recipe.getJSONArray("instructionLines");
+            for(int x = 0; x < instructionsArray.length(); x++){
+                instructions.add(instructionsArray.getString(x));
+            }
+
+            recetas.add(new Receta(title, image_uri, source_uri, ingredients, total_time, cuisine, mealTypes, healthLabels, instructions));
         }
 
         return recetas;

@@ -30,6 +30,9 @@
     <string name="night_mode">Modo oscuro</string>
     <string name="day_mode">Modo claro</string>
     <string name="lang_es">Castellano</string>
-    <string name="lang_en">Ingles</string>
-
+    <string name="lang_en">English</string>
+    <string name="back">Atrás</string>
+    <string name="title_activity_receta">Saborearte</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="instructions">Instrucciones</string>
 </resources>

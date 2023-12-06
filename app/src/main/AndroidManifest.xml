@@ -16,8 +16,18 @@
         android:theme="@style/Theme.SaboreArte"
         tools:targetApi="31">
         <activity
+            android:name=".RecetaActivity"
+            android:exported="false"
+            android:label="@string/title_activity_receta"
+            android:theme="@style/Theme.SaboreArte" />
+        <activity
+            android:name=".ResultsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SaboreArte" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SaboreArte" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

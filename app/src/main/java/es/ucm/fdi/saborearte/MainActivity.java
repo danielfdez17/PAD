@@ -3,16 +3,14 @@ package es.ucm.fdi.saborearte;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Pair;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,19 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 
 
 import androidx.loader.app.LoaderManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-//import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +33,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static int RECETA_LOADER_ID = 1;
-    private RecetaLoaderCallback recetaLoaderCallback;
-    private RecetaResultListAdapter recetaAdapter;
     private EditText etIngredientesDisponibles;
     private EditText etIngredientesBloqueados;
     private EditText etTiempo;
-    private RecyclerView rvRecetas;
-    private List<Receta> recetas = new ArrayList<>();
     private String tiempo_maximo;
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
@@ -59,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lista_ingredientes= new ArrayList<>();
         lista_bloqueados=new ArrayList<>();
-        rvRecetas = findViewById(R.id.rv_recetas);
         etIngredientesDisponibles = findViewById(R.id.et_ingredientes_disponibles);
         etIngredientesBloqueados = findViewById(R.id.et_ingredientes_bloqueados);
         this.etTiempo = findViewById(R.id.et_tiempo);
@@ -77,14 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupChipsForIngredientesDisponibles();
         setupChipsForIngredientesBloqueados();
-        setupRecyclerView();
-
-        recetaLoaderCallback = new RecetaLoaderCallback(this);
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        if(loaderManager.getLoader(RECETA_LOADER_ID) != null){
-            loaderManager.initLoader(RECETA_LOADER_ID, null, recetaLoaderCallback);
-        }
-        recetaAdapter = new RecetaResultListAdapter(this, new ArrayList<>());
 
         //Configuración del Spinner para las opciones de dieta
         MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner_dieta_opciones);
@@ -97,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears.
         spinner.setAdapter(adapter);    // Apply the adapter to the spinner.
     }
-    private void createChips(ChipGroup chipGroupIngredientesDisponibles, EditText eText, List<String> list){
+
+    private void createChips(ChipGroup chipGroup, EditText eText, List<String> list){
         String ingString = eText.getText().toString().trim();
         if(ingString.isEmpty())
             return;
@@ -105,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         for(String s : ingredientes) {
             if(!list.contains(s)) {
                 list.add(s);
-                createChip(s, chipGroupIngredientesDisponibles, eText, false);
+                createChip(s, chipGroup, eText, false);
             }
         }
     }
@@ -165,12 +145,6 @@ public class MainActivity extends AppCompatActivity {
         editText.getText().clear();
     }
 
-    private void setupRecyclerView() {
-        rvRecetas.setLayoutManager(new LinearLayoutManager(this));
-        recetaAdapter = new RecetaResultListAdapter(this, recetas);
-        rvRecetas.setAdapter(recetaAdapter);
-    }
-
     public void searchRecetas(View view) {
         Log.i(TAG, "Search recetas btn clicked");
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -184,11 +158,17 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle queryBundle = new Bundle();
 
+        if(lista_ingredientes.isEmpty() && !etIngredientesDisponibles.getText().equals("")){
+            final ChipGroup chipGroupIngredientesDisponibles = findViewById(R.id.chip_group_ingredientes_disponibles);
+            createChips(chipGroupIngredientesDisponibles, etIngredientesDisponibles, lista_ingredientes);
+        }
+
         // INGREDIENTES DISPONIBLES / A INCLUIR
         if (lista_ingredientes.isEmpty()) {
             Toast.makeText(this, "¡No se puede comer del aire! :)", Toast.LENGTH_SHORT).show();
             return;
         }
+
         String ingredientes = "";
         for(String s : lista_ingredientes)
             ingredientes += s + ",";
@@ -263,9 +243,32 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Alergias seleccionadas: " + health);
         queryBundle.putString(RecetaAPI.HEALTH_PARAM, health);
 
-        LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
+        clearFields();
+
+        Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
+        intent.putExtra("queryBundle", queryBundle);
+        startActivity(intent);
     }
 
+    private void clearFields(){
+        etIngredientesDisponibles.setText("");
+        etIngredientesBloqueados.setText("");
+        lista_ingredientes.clear();
+        lista_bloqueados.clear();
+        removeAllChips(findViewById(R.id.chip_group_ingredientes_disponibles));
+        removeAllChips(findViewById(R.id.chip_group_ingredientes_bloqueados));
+    }
+    private void removeAllChips(ChipGroup chipGroup) {
+        int childCount = chipGroup.getChildCount();
+
+        // Remove all chips in the ChipGroup
+        for (int i = 0; i < childCount; i++) {
+            View child = chipGroup.getChildAt(i);
+            if (child instanceof Chip) {
+                chipGroup.removeView(child);
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

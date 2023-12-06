@@ -12,10 +12,10 @@ import java.util.List;
 public class RecetaLoaderCallback implements LoaderManager.LoaderCallbacks<List<Receta>> {
     private static final String TAG = RecetaLoaderCallback.class.getSimpleName();
 
-    private final MainActivity mainActivity;
+    private final ResultsActivity resultsActivity;
 
-    public RecetaLoaderCallback(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public RecetaLoaderCallback(ResultsActivity resultsActivity) {
+        this.resultsActivity = resultsActivity;
     }
     @NonNull
     @Override
@@ -33,12 +33,13 @@ public class RecetaLoaderCallback implements LoaderManager.LoaderCallbacks<List<
         // TIPO DE COCINA
         ArrayList<String> tiposDeCocina = args.getStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM);
 
-        return new RecetaLoader(mainActivity, queryString, listaBloqueados, timeString, mealtype, tiposDeCocina, healthOption);
+        return new RecetaLoader(resultsActivity, queryString, listaBloqueados, timeString, mealtype, tiposDeCocina, healthOption);
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Receta>> loader, List<Receta> data) {
 //        mainActivity.showBooks((data));
+        ((ResultsActivity) resultsActivity).updateBooksResultList(data);
     }
 
     @Override

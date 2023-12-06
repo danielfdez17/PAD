@@ -22,10 +22,16 @@
         <item>vegetarian</item>
     </string-array>
     <string name="search">Generate Recipes</string>
+    <string name="obligatorio">Mandatory</string>
+    <string name="opcional">Opcional</string>
     <string name="favorites">Show Favourites Recipes</string>
     <string name="internet_required">Internet is required</string>
     <string name="night_mode">Night mode</string>
     <string name="day_mode">Day mode</string>
-    <string name="lang_es">Spanish</string>
+    <string name="lang_es">Castellano</string>
     <string name="lang_en">English</string>
+    <string name="back">Back</string>
+    <string name="title_activity_receta">Saborearte</string>
+    <string name="ingredientes">Ingredients</string>
+    <string name="instructions">Instructions</string>
 </resources>
