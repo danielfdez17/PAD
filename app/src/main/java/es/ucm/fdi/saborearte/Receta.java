@@ -1,4 +1,5 @@
 package es.ucm.fdi.saborearte;
+import android.media.Image;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -6,10 +7,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 public class Receta implements Serializable {
+
+    private static final String TITULO = "titulo";
+    private static final String IMAGE_URI = "image uri";
+    private static final String SOURCE_URI = "source uri";
+    private static final String INGREDIENTES = "ingredientes";
+    private static final String TIEMPO_PREPARACION = "tiempo preparacion";
+    private static final String CUISINE = "cuisine";
+    private static final String MEAL_TYPE = "meal type";
+    private static final String HEALTH_LABELS = "healthLabels";
+    private static final String INSTRUCCIONES = "instrucciones";
     private static final String TAG = Receta.class.getSimpleName();
     private final String titulo;
     private final String image_uri;
@@ -67,27 +80,52 @@ public class Receta implements Serializable {
     public JSONObject toJSONObject() throws JSONException {
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
-        jo.put("titulo", this.titulo);
-        jo.put("image uri",this.image_uri);
-        jo.put("source uri",this.source_uri);
+        jo.put(TITULO, this.titulo);
+        jo.put(IMAGE_URI,this.image_uri);
+        jo.put(SOURCE_URI,this.source_uri);
         for (int i=0; i<this.ingredientes.size();i++){
             ja.put(this.ingredientes.get(i));
         }
         ja=new JSONArray();
-        jo.put("ingredientes",ja);
-        jo.put("tiempo preparacion",this.tiempoPreparacion);
-        jo.put("cuisine",this.cuisine);
-        jo.put("meal type",this.mealTypes);
+        jo.put(INGREDIENTES,ja);
+        jo.put(TIEMPO_PREPARACION,this.tiempoPreparacion);
+        jo.put(CUISINE,this.cuisine);
+        jo.put(MEAL_TYPE,this.mealTypes);
         for (int i=0; i<this.healthLabels.size();i++){
             ja.put(this.healthLabels.get(i));
         }
-        jo.put("healthLabels",ja);
+        jo.put(HEALTH_LABELS,ja);
         ja=new JSONArray();
         for (int i=0; i<this.instructions.size();i++){
             ja.put(this.instructions.get(i));
         }
-        jo.put("instrucciones",ja);
+        jo.put(INSTRUCCIONES,ja);
         return jo;
+    }
+    public static Receta toReceta(JSONObject jo) throws JSONException {
+        Receta receta = null;
+        String titulo = jo.getString(TITULO);
+        String image_uri = jo.getString(IMAGE_URI);
+        String source_uri = jo.getString(SOURCE_URI);
+        ArrayList<String> ingredientes = new ArrayList<>();
+        JSONArray ja = jo.getJSONArray(INGREDIENTES);
+        for (int i = 0; i < ja.length(); ++i) {
+            ingredientes.add(ja.getString(i));
+        }
+        int tiempo = jo.getInt(TIEMPO_PREPARACION);
+        String cuisine = jo.getString(CUISINE);
+        String mealType = jo.getString(MEAL_TYPE);
+        ArrayList<String> healthLabels = new ArrayList<>();
+        ja = jo.getJSONArray(HEALTH_LABELS);
+        for (int i = 0; i < ja.length(); ++i) {
+            healthLabels.add(ja.getString(i));
+        }
+        ArrayList<String> instrucciones = new ArrayList<>();
+        ja = jo.getJSONArray(INSTRUCCIONES);
+        for (int i = 0; i < ja.length(); ++i) {
+            instrucciones.add(ja.getString(i));
+        }
+        return new Receta(titulo, image_uri, source_uri, ingredientes, tiempo, cuisine, mealType, healthLabels, instrucciones);
     }
     public String getInstructions() {
         StringBuilder sb = new StringBuilder();

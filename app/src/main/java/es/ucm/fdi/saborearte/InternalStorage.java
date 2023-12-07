@@ -3,8 +3,12 @@ package es.ucm.fdi.saborearte;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -19,7 +25,7 @@ import java.util.Scanner;
 
 public class InternalStorage {
     private final Context context;
-    private final String archivo="Recetas.json";
+    private final String archivo = "Recetas.json";
 
     public InternalStorage (Context context){
         this.context =context;
@@ -44,18 +50,15 @@ public class InternalStorage {
 
 
     }
-    public ArrayList<Receta> readJSON(){
+    public List<Receta> readJSON() {
         try {
-            Path filePath = context.getFilesDir().toPath().resolve(archivo);
-            String jsonContent = new String(Files.readAllBytes(filePath));
-            ObjectMapper objectMapper = null;
-            return objectMapper.readTree(jsonContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            FileInputStream fileInputStream = this.context.openFileInput(archivo);
+            JSONObject jo = new JSONObject(new JSONTokener(fileInputStream.toString()));
+            return Receta.fromJsonResponse(jo.toString());
         }
+        catch (Exception e) {
 
-
+        }
         return null;
     }
 
