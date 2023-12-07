@@ -38,7 +38,6 @@ public class RecetaLoaderCallback implements LoaderManager.LoaderCallbacks<List<
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Receta>> loader, List<Receta> data) {
-//        mainActivity.showBooks((data));
         ((ResultsActivity) resultsActivity).updateBooksResultList(data);
     }
 

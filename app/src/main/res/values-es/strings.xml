@@ -35,4 +35,5 @@
     <string name="title_activity_receta">Saborearte</string>
     <string name="ingredientes">Ingredientes</string>
     <string name="instructions">Instrucciones</string>
+    <string name="no_results">No hay resultados</string>
 </resources>

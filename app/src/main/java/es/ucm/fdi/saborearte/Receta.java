@@ -74,10 +74,9 @@ public class Receta implements Serializable {
         return sb.toString();
     }
     public static List<Receta> fromJsonResponse(String jsonStringList) throws JSONException {
-        if(jsonStringList == null)
-            return null;
-
         List<Receta> recetas = new ArrayList<>();
+        if(jsonStringList == null)
+            return recetas;
 
         JSONObject jsonObject = new JSONObject(jsonStringList);
         int start = jsonObject.getInt("from");

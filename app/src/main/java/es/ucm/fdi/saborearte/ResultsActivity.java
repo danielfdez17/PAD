@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class ResultsActivity extends AppCompatActivity {
     public static int RECETA_LOADER_ID = 1;
     private RecyclerView resultsRecyclerView;
     private RecetaLoaderCallback recetaLoaderCallback;
+    private TextView tvNoResults;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         resultsRecyclerView = findViewById(R.id.recyclerView);
         resultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        tvNoResults = findViewById(R.id.tvNoResults);
+        progressBar = findViewById(R.id.progressBar);
 
         recetaLoaderCallback = new RecetaLoaderCallback(this);
         LoaderManager loaderManager = LoaderManager.getInstance(this);
@@ -39,6 +46,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         Log.i(TAG, "Creating results view");
 
+        progressBar.setVisibility(View.VISIBLE);
         LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
 
@@ -54,8 +62,11 @@ public class ResultsActivity extends AppCompatActivity {
 
     public void updateBooksResultList(List<Receta> recetas) {
         Log.i(TAG, "Updating results view");
-        if (recetas == null) {
-            resultsRecyclerView.setAdapter(null);
+        progressBar.setVisibility(View.GONE);
+        Log.i(TAG, "Progress bar hidden");
+        if (recetas == null || recetas.isEmpty()) {
+            Log.i(TAG, "No results visible");
+            tvNoResults.setVisibility(View.VISIBLE);
         } else {
             RecetaResultListAdapter adapter = new RecetaResultListAdapter(this, recetas);
             resultsRecyclerView.setAdapter(adapter);
