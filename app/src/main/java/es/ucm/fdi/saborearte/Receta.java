@@ -64,6 +64,31 @@ public class Receta implements Serializable {
         }
         return sb.toString();
     }
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject jo = new JSONObject();
+        JSONArray ja = new JSONArray();
+        jo.put("titulo", this.titulo);
+        jo.put("image uri",this.image_uri);
+        jo.put("source uri",this.source_uri);
+        for (int i=0; i<this.ingredientes.size();i++){
+            ja.put(this.ingredientes.get(i));
+        }
+        ja=new JSONArray();
+        jo.put("ingredientes",ja);
+        jo.put("tiempo preparacion",this.tiempoPreparacion);
+        jo.put("cuisine",this.cuisine);
+        jo.put("meal type",this.mealTypes);
+        for (int i=0; i<this.healthLabels.size();i++){
+            ja.put(this.healthLabels.get(i));
+        }
+        jo.put("healthLabels",ja);
+        ja=new JSONArray();
+        for (int i=0; i<this.instructions.size();i++){
+            ja.put(this.instructions.get(i));
+        }
+        jo.put("instrucciones",ja);
+        return jo;
+    }
     public String getInstructions() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < instructions.size(); i++){
