@@ -10,49 +10,42 @@
         android:id="@+id/receta_imagen"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/receta_time"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
     <TextView
         android:id="@+id/receta_title"
-        android:layout_width="250dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="276dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="TextView"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/ingredients_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/receta_imagen"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
     <TextView
         android:id="@+id/receta_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="228dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/receta_ingredients"
-        app:layout_constraintEnd_toEndOf="@+id/receta_title"
-        app:layout_constraintStart_toStartOf="@+id/receta_title"
-        app:layout_constraintTop_toBottomOf="@+id/receta_imagen" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/receta_imagen"
+        app:layout_constraintTop_toBottomOf="@+id/receta_title" />
 
     <TextView
         android:id="@+id/receta_instructions"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="382dp"
+        android:layout_height="248dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructions_title" />
@@ -60,38 +53,55 @@
     <TextView
         android:id="@+id/receta_ingredients"
 
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="382dp"
+        android:layout_height="216dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="298dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receta_time" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredients_title" />
 
     <TextView
         android:id="@+id/ingredients_title"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="141dp"
+        android:layout_height="26dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginTop="11dp"
         android:text="@string/ingredientes"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/receta_ingredients"
-        app:layout_constraintEnd_toStartOf="@+id/receta_time"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receta_title" />
+        app:layout_constraintTop_toBottomOf="@+id/receta_time" />
 
     <TextView
         android:id="@+id/instructions_title"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="14dp"
         android:text="@string/instructions"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/receta_instructions"
-        app:layout_constraintStart_toStartOf="@+id/receta_instructions"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/receta_ingredients" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/toggle_favorite"
+        android:textOn=""
+        android:textOff=""
+        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
+        app:layout_constraintEnd_toEndOf="@+id/materialToolbar"
+        app:layout_constraintTop_toTopOf="@+id/materialToolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

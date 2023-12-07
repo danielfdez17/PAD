@@ -19,7 +19,7 @@
             android:name=".RecetaActivity"
             android:exported="false"
             android:label="@string/title_activity_receta"
-            android:theme="@style/Theme.SaboreArte" />
+            android:theme="@style/Theme.SaboreArte.NoActionBar" />
         <activity
             android:name=".ResultsActivity"
             android:exported="false"

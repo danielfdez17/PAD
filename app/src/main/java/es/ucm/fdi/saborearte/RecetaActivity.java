@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
+
 import android.text.method.ScrollingMovementMethod;
+import android.widget.ToggleButton;
+import android.widget.Toolbar;
 
 public class RecetaActivity extends AppCompatActivity {
     private static final String TAG = RecetaActivity.class.getSimpleName();
@@ -26,6 +32,8 @@ public class RecetaActivity extends AppCompatActivity {
 
         Log.i(TAG, "Receta view accessed");
 
+        MaterialToolbar toolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Receta receta = (Receta) getIntent().getSerializableExtra("receta");
 
@@ -58,5 +66,19 @@ public class RecetaActivity extends AppCompatActivity {
 
         // Glide para cargar imágenes desde URLs
         Glide.with(this).load(receta.getImage_uri()).into(image);
+
+        ToggleButton favoriteBtn = (ToggleButton) findViewById(R.id.toggleButton);
+        favoriteBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // TODO: add to favorites
+                    Log.i(TAG, "Added to favorites");
+                } else {
+                    // TODO: remove from favorites
+                    Log.i(TAG, "Removed from favorites");
+                }
+            }
+        });
     }
 }
