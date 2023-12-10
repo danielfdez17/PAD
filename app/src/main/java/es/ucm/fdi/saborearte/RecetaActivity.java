@@ -77,23 +77,14 @@ public class RecetaActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // TODO: add to favorites
+                    internalStorage.saveReceta(receta);
                     Log.i(TAG, "Added to favorites");
                 } else {
                     // TODO: remove from favorites
+                    internalStorage.deleteReceta(receta);
                     Log.i(TAG, "Removed from favorites");
                 }
             }
         });
-    }
-
-    public void toggleButtonClicked(Receta receta) {
-        // Si esta activo, se desea eliminar la receta
-        if (this.toggleButton.isChecked()) {
-            this.internalStorage.deleteReceta(receta);
-        }
-        // Si no esta activo, se desea guardar la receta
-        else {
-            this.internalStorage.saveReceta(receta);
-        }
     }
 }
