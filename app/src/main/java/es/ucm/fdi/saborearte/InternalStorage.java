@@ -51,8 +51,6 @@ public class InternalStorage {
                 e.printStackTrace();
             }
         }
-
-
     }
     public List<Receta> readRecetas() {
         try {
