@@ -23,7 +23,7 @@
     </string-array>
     <string name="search">Generate Recipes</string>
     <string name="obligatorio">Mandatory</string>
-    <string name="opcional">Opcional</string>
+    <string name="opcional">Optional</string>
     <string name="favorites">Show Favourites Recipes</string>
     <string name="internet_required">Internet is required</string>
     <string name="night_mode">Night mode</string>
@@ -35,4 +35,7 @@
     <string name="ingredientes">Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="no_results">No results</string>
+    <string name="dayModeActivated">Day mode is active</string>
+    <string name="nightModeActivated">Night mode is active</string>
+    <string name="manadatoryTextEmpty">Air is not eatable! :)</string>
 </resources>

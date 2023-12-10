@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.widget.ToggleButton;
 
 
 import androidx.loader.app.LoaderManager;
@@ -39,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
     private String tiempo_maximo;
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
+    private InternalStorage internalStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_SaboreArte);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.internalStorage = new InternalStorage(this);
         lista_ingredientes= new ArrayList<>();
         lista_bloqueados=new ArrayList<>();
         etIngredientesDisponibles = findViewById(R.id.et_ingredientes_disponibles);
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
         // INGREDIENTES DISPONIBLES / A INCLUIR
         if (lista_ingredientes.isEmpty()) {
-            Toast.makeText(this, "¡No se puede comer del aire! :)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.manadatoryTextEmpty, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -279,22 +282,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        int id=item.getItemId();
-       if(id==R.id.cambioCastellano){
-           setLanguage("es");
-           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
+//       if(id==R.id.cambioCastellano){
+//           setLanguage("es");
+//           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
+//           return true;
+//       }
+//       else if(id==R.id.cambioIngles){
+//           setLanguage("fr");
+//           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
+//           return true;
+//       }
+//       else
+        if (id == R.id.modoClaro){
+           Toast.makeText(this, R.string.dayModeActivated,Toast.LENGTH_SHORT).show();
            return true;
        }
-       else if(id==R.id.cambioIngles){
-           setLanguage("fr");
-           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
-           return true;
-       }
-       else if(id==R.id.modoClaro){
-           Toast.makeText(this,"Day Mode",Toast.LENGTH_SHORT).show();
-           return true;
-       }
-       else if(id==R.id.modoOscuro){
-           Toast.makeText(this,"Dark Modes",Toast.LENGTH_SHORT).show();
+       else if (id == R.id.modoOscuro){
+           Toast.makeText(this,R.string.nightModeActivated,Toast.LENGTH_SHORT).show();
            return true;
        }
        return false;

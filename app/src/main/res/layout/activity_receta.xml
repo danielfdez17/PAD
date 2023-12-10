@@ -101,6 +101,7 @@
         android:background="@drawable/toggle_favorite"
         android:textOn=""
         android:textOff=""
+        android:onClick="toggleButtonClicked"
         app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
         app:layout_constraintEnd_toEndOf="@+id/materialToolbar"
         app:layout_constraintTop_toTopOf="@+id/materialToolbar" />

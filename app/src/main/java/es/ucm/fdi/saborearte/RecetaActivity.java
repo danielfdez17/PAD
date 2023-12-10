@@ -24,6 +24,8 @@ public class RecetaActivity extends AppCompatActivity {
     private TextView ingredients;
     private TextView instructions;
     private ImageView image;
+    private ToggleButton toggleButton;
+    private InternalStorage internalStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class RecetaActivity extends AppCompatActivity {
         time = findViewById(R.id.receta_time);
         ingredients = findViewById(R.id.receta_ingredients);
         instructions = findViewById(R.id.receta_instructions);
+        toggleButton = findViewById(R.id.toggleButton);
+        internalStorage = new InternalStorage(this);
 
         createActivity(receta);
     }
@@ -80,5 +84,16 @@ public class RecetaActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void toggleButtonClicked(Receta receta) {
+        // Si esta activo, se desea eliminar la receta
+        if (this.toggleButton.isChecked()) {
+            this.internalStorage.deleteReceta(receta);
+        }
+        // Si no esta activo, se desea guardar la receta
+        else {
+            this.internalStorage.saveReceta(receta);
+        }
     }
 }

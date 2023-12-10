@@ -36,4 +36,7 @@
     <string name="ingredientes">Ingredientes</string>
     <string name="instructions">Instrucciones</string>
     <string name="no_results">No hay resultados</string>
+    <string name="dayModeActivated">Modo claro activado</string>
+    <string name="nightModeActivated">Modo oscuro activado</string>
+    <string name="manadatoryTextEmpty">¡No se puede comer del aire! :)</string>
 </resources>
