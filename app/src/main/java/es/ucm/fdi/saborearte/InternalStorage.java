@@ -1,6 +1,7 @@
 package es.ucm.fdi.saborearte;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import java.util.Scanner;
 public class InternalStorage {
     private final Context context;
     private final String archivo = "Recetas.json";
+    private static final String TAG = InternalStorage.class.getSimpleName();
 
     public InternalStorage (Context context){
         this.context = context;
@@ -34,7 +36,7 @@ public class InternalStorage {
 
         FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = this.context.openFileOutput("Recetas.json",Context.MODE_PRIVATE);
+            fileOutputStream = this.context.openFileOutput(archivo, Context.MODE_PRIVATE);
             fileOutputStream.write(receta.toJSONObject().toString().getBytes());
 
 
@@ -43,7 +45,9 @@ public class InternalStorage {
         } finally {
             try {
                 fileOutputStream.close();
+                Log.i(TAG, "fileOuptutStream closed");
             } catch (IOException e) {
+                Log.i(TAG, "Exception when saving recipe\n" + e.getMessage());
                 e.printStackTrace();
             }
         }
