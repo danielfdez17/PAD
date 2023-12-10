@@ -51,6 +51,7 @@ public class RecetaActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
+        Log.i(TAG, "HEHRHERHAHSIKDKASD");
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
@@ -76,13 +77,11 @@ public class RecetaActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // TODO: add to favorites
+                    Log.i(TAG, "Adding to favorites");
                     internalStorage.saveReceta(receta);
-                    Log.i(TAG, "Added to favorites");
                 } else {
-                    // TODO: remove from favorites
+                    Log.i(TAG, "Removing from favorites");
                     internalStorage.deleteReceta(receta);
-                    Log.i(TAG, "Removed from favorites");
                 }
             }
         });
