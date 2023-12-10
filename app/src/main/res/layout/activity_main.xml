@@ -104,7 +104,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_dieta_opciones"
+        android:id="@+id/layout_spinner_dieta"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,11 +112,10 @@
         app:helperText="@string/opcional"
         android:padding="8dp">
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
+        <Spinner
             android:id="@+id/spinner_dieta_opciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/health_options"
             android:contentDescription="Dieta" />
 
     </com.google.android.material.textfield.TextInputLayout>

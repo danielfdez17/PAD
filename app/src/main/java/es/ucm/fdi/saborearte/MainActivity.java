@@ -16,15 +16,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.content.SharedPreferences;
+import androidx.appcompat.app.AppCompatDelegate;
 
 
 import androidx.loader.app.LoaderManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputLayout;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
@@ -40,10 +46,15 @@ public class MainActivity extends AppCompatActivity {
     private List<String> lista_ingredientes;
     private List<String> lista_bloqueados;
     private InternalStorage internalStorage;
-
+    private static final String PREFS_NAME = "prefs";
+    private static final String PREF_DARK_THEME = "dark_theme";
+    private String selectedDiet = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
         setTheme(R.style.Theme_SaboreArte);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -69,15 +80,15 @@ public class MainActivity extends AppCompatActivity {
         setupChipsForIngredientesBloqueados();
 
         //Configuración del Spinner para las opciones de dieta
-        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner_dieta_opciones);
-        // Create an ArrayAdapter using the string array and a default spinner layout.
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.health_options,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Specify the layout to use when the list of choices appears.
-        spinner.setAdapter(adapter);    // Apply the adapter to the spinner.
+        TextInputLayout layoutSpinnerDieta = findViewById(R.id.layout_spinner_dieta);
+        Spinner spinnerDieta = layoutSpinnerDieta.findViewById(R.id.spinner_dieta_opciones);
+
+        // Obtiene las opciones de dieta desde strings.xml
+        String[] dietOptions = getResources().getStringArray(R.array.health_options);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dietOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDieta.setAdapter(adapter);
     }
 
     private void createChips(ChipGroup chipGroup, EditText eText, List<String> list){
@@ -241,8 +252,9 @@ public class MainActivity extends AppCompatActivity {
         queryBundle.putStringArrayList(RecetaAPI.CUISINE_TYPE_PARAM, tiposCocina);
 
         // ALERGENOS
-        MaterialSpinner dietaSpinner = findViewById(R.id.spinner_dieta_opciones);
-        String health = dietaSpinner.getText().toString();
+        TextInputLayout layoutSpinnerDieta = findViewById(R.id.layout_spinner_dieta);
+        Spinner spinnerDieta = layoutSpinnerDieta.findViewById(R.id.spinner_dieta_opciones);
+        String health = (String) spinnerDieta.getSelectedItem();
         Log.i(TAG, "Alergias seleccionadas: " + health);
         queryBundle.putString(RecetaAPI.HEALTH_PARAM, health);
 
@@ -281,27 +293,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       int id=item.getItemId();
-//       if(id==R.id.cambioCastellano){
-//           setLanguage("es");
-//           Toast.makeText(this,"Se ha cambiado de idioma al Español",Toast.LENGTH_SHORT).show();
-//           return true;
-//       }
-//       else if(id==R.id.cambioIngles){
-//           setLanguage("fr");
-//           Toast.makeText(this,"You change lenguage to Brithish English",Toast.LENGTH_SHORT).show();
-//           return true;
-//       }
-//       else
-        if (id == R.id.modoClaro){
-           Toast.makeText(this, R.string.dayModeActivated,Toast.LENGTH_SHORT).show();
-           return true;
-       }
-       else if (id == R.id.modoOscuro){
-           Toast.makeText(this,R.string.nightModeActivated,Toast.LENGTH_SHORT).show();
-           return true;
-       }
-       return false;
+        int id = item.getItemId();
+
+        if (id == R.id.modoClaro) {
+            cambiarModo(false);
+            return true;
+        } else if (id == R.id.modoOscuro) {
+            cambiarModo(true);
+            return true;
+        }
+
+        // Tus otros casos de menú aquí...
+        // Por ejemplo:
+        // if (id == R.id.cambioCastellano) {
+        //     setLanguage("es");
+        //     Toast.makeText(this, "Se ha cambiado de idioma al Español", Toast.LENGTH_SHORT).show();
+        //     return true;
+        // } else if (id == R.id.cambioIngles) {
+        //     setLanguage("en");
+        //     Toast.makeText(this, "You change language to British English", Toast.LENGTH_SHORT).show();
+        //     return true;
+        // }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setLanguage(String language) {
@@ -311,6 +325,22 @@ public class MainActivity extends AppCompatActivity {
         Configuration conf=resourses.getConfiguration();
         conf.setLocale(locale);
         getBaseContext().getResources().updateConfiguration(conf,resourses.getDisplayMetrics());
+        recreate();
+    }
+
+    private void cambiarModo(boolean modoOscuro) {
+        SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putBoolean(PREF_DARK_THEME, modoOscuro);
+        editor.apply();
+
+        if (modoOscuro) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            Toast.makeText(this, R.string.nightModeActivated, Toast.LENGTH_SHORT).show();
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Toast.makeText(this, R.string.dayModeActivated, Toast.LENGTH_SHORT).show();
+        }
+
         recreate();
     }
 

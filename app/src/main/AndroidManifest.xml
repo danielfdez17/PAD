@@ -19,7 +19,8 @@
             android:name=".RecetaActivity"
             android:exported="false"
             android:label="@string/title_activity_receta"
-            android:theme="@style/Theme.SaboreArte.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            />
         <activity
             android:name=".ResultsActivity"
             android:exported="false"

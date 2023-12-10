@@ -1,12 +1,6 @@
+<!-- themes.xml y themes.xml (night) -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.SaboreArte" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@drawable/background_gradient</item>
-    </style>
-    <style name="Theme.SaboreArte.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.SaboreArte" parent="Theme.MaterialComponents.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
