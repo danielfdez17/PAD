@@ -122,7 +122,11 @@ public class RecetaActivity extends AppCompatActivity {
     private boolean isRecetaFavorita(Receta receta) {
         List<Receta> listaDeRecetas = internalStorage.readRecetas();
         if (listaDeRecetas != null) {
-            return listaDeRecetas.contains(receta);
+            for(Receta r : listaDeRecetas){
+                if(r.getSource_uri().equals(receta.getSource_uri())){
+                    return true;
+                }
+            }
         }
         return false;
     }

@@ -20,7 +20,6 @@ import java.lang.reflect.Type;
 
 
 public class Receta implements Serializable {
-
     private static final String TITULO = "titulo";
     private static final String IMAGE_URI = "image uri";
     private static final String SOURCE_URI = "source uri";

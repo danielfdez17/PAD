@@ -101,7 +101,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_tiempo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:focusable="false"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -118,7 +118,7 @@
         <Spinner
             android:id="@+id/spinner_dieta_opciones"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:contentDescription="Dieta" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -128,8 +128,8 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/button_gradient"
         android:insetTop="0dp"
         android:insetBottom="0dp"
