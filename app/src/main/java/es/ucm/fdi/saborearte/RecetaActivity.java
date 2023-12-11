@@ -107,14 +107,15 @@ public class RecetaActivity extends AppCompatActivity {
 
                     internalStorage.saveRecetas(listaDeRecetas);
                 } else {
+                    List<Receta> newRecetaList = new ArrayList<>();
 
-                    if (listaDeRecetas == null) {
-                        listaDeRecetas = new ArrayList<>();
+                    for(Receta r : listaDeRecetas){
+                        if(!r.getSource_uri().equals(receta.getSource_uri())){
+                            newRecetaList.add(r);
+                        }
                     }
 
-                    listaDeRecetas.remove(receta);
-
-                    internalStorage.saveRecetas(listaDeRecetas);
+                    internalStorage.saveRecetas(newRecetaList);
                 }
             }
         });
