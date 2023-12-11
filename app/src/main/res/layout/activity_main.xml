@@ -2,6 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/linearLayout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -16,7 +19,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/sabor_logo" />
+        android:src="@drawable/logo_app" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_ingredientes_disponibles"
