@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-
+import com.google.gson.Gson;
 
 
 
@@ -32,44 +33,56 @@ public class InternalStorage {
     public InternalStorage (Context context){
         this.context = context;
     }
-    public void saveReceta(Receta receta){
 
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = this.context.openFileOutput(archivo, Context.MODE_PRIVATE);
-            fileOutputStream.write(receta.toJSONObject().toString().getBytes());
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                fileOutputStream.close();
-                Log.i(TAG, "fileOuptutStream closed");
-            } catch (IOException e) {
-                Log.i(TAG, "Exception when saving recipe\n" + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
     public List<Receta> readRecetas() {
         try {
             FileInputStream fileInputStream = this.context.openFileInput(archivo);
-            JSONObject jo = new JSONObject(new JSONTokener(fileInputStream.toString()));
-            return Receta.fromJsonResponse(jo.toString());
-        }
-        catch (Exception e) {
+            int size = fileInputStream.available();
+            byte[] buffer = new byte[size];
+            fileInputStream.read(buffer);
+            fileInputStream.close();
 
+            String jsonString = new String(buffer, "UTF-8");
+            JSONArray jsonArray = new JSONArray(jsonString);
+
+            if (jsonString.isEmpty()) {
+                Log.d(TAG, "El archivo está vacío o no se pudo leer correctamente");
+            } else {
+                return Receta.readRecetasFromStorage(context, archivo);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error al leer recetas: " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
 
     public void deleteReceta(Receta receta) {
-        List<Receta> lista = this.readRecetas();
-        if (lista.contains(receta)) {
-            lista.remove(receta);
+        List<Receta> recetas = readRecetas();
+        if (recetas != null && recetas.contains(receta)) {
+            recetas.remove(receta);
+            saveRecetas(recetas);
         }
     }
+    public void saveRecetas(List<Receta> recetas) {
+        FileOutputStream fileOutputStream = null;
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(recetas);
 
+            fileOutputStream = this.context.openFileOutput(archivo, Context.MODE_PRIVATE);
+            fileOutputStream.write(json.getBytes());
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

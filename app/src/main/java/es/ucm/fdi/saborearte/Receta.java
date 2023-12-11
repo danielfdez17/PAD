@@ -6,11 +6,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
+import android.content.Context;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
+import java.lang.reflect.Type;
+
 
 public class Receta implements Serializable {
 
@@ -35,16 +42,16 @@ public class Receta implements Serializable {
     private final ArrayList<String> instructions;
 
     // Constructor
-    public Receta(String titulo, String image_uri, String source_uri, ArrayList<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes, ArrayList<String> healthLabels, ArrayList<String> instructions) {
+    public Receta(String titulo, String image_uri, String source_uri, List<String> ingredientes, int tiempoPreparacion, String cuisine, String mealTypes, List<String> healthLabels, List<String> instructions) {
         this.titulo = titulo;
         this.image_uri = image_uri;
         this.source_uri = source_uri;
-        this.ingredientes = ingredientes;
+        this.ingredientes = new ArrayList<>(ingredientes);
         this.tiempoPreparacion = tiempoPreparacion;
         this.cuisine = cuisine;
         this.mealTypes = mealTypes;
-        this.healthLabels = healthLabels;
-        this.instructions = instructions;
+        this.healthLabels = new ArrayList<>(healthLabels);
+        this.instructions = new ArrayList<>(instructions);
     }
     // Getters
     public String getTitulo() {
@@ -79,54 +86,81 @@ public class Receta implements Serializable {
     }
     public JSONObject toJSONObject() throws JSONException {
         JSONObject jo = new JSONObject();
-        JSONArray ja = new JSONArray();
+
         jo.put(TITULO, this.titulo);
         jo.put(IMAGE_URI,this.image_uri);
         jo.put(SOURCE_URI,this.source_uri);
-        for (int i=0; i<this.ingredientes.size();i++){
-            ja.put(this.ingredientes.get(i));
-        }
-        ja=new JSONArray();
-        jo.put(INGREDIENTES,ja);
+
+        JSONArray ingredientesArray = new JSONArray(ingredientes);
+        jo.put("ingredientes", ingredientesArray);
+
         jo.put(TIEMPO_PREPARACION,this.tiempoPreparacion);
         jo.put(CUISINE,this.cuisine);
         jo.put(MEAL_TYPE,this.mealTypes);
-        for (int i=0; i<this.healthLabels.size();i++){
-            ja.put(this.healthLabels.get(i));
-        }
-        jo.put(HEALTH_LABELS,ja);
-        ja=new JSONArray();
-        for (int i=0; i<this.instructions.size();i++){
-            ja.put(this.instructions.get(i));
-        }
-        jo.put(INSTRUCCIONES,ja);
+        JSONArray healthLabelsArray = new JSONArray(healthLabels);
+        jo.put("health_labels", healthLabelsArray);
+
+        JSONArray instructionsArray = new JSONArray(instructions);
+        jo.put("instructions", instructionsArray);
+
         return jo;
     }
-    public static Receta toReceta(JSONObject jo) throws JSONException {
-        Receta receta = null;
+    public static Receta fromJSONObject(JSONObject jo) throws JSONException {
         String titulo = jo.getString(TITULO);
         String image_uri = jo.getString(IMAGE_URI);
         String source_uri = jo.getString(SOURCE_URI);
-        ArrayList<String> ingredientes = new ArrayList<>();
-        JSONArray ja = jo.getJSONArray(INGREDIENTES);
-        for (int i = 0; i < ja.length(); ++i) {
-            ingredientes.add(ja.getString(i));
+        JSONArray ingredientesArray = jo.getJSONArray("ingredientes");
+        List<String> ingredientes = new ArrayList<>();
+        for (int i = 0; i < ingredientesArray.length(); i++) {
+            ingredientes.add(ingredientesArray.getString(i));
         }
-        int tiempo = jo.getInt(TIEMPO_PREPARACION);
+
+        int tiempoPreparacion = jo.getInt(TIEMPO_PREPARACION);
         String cuisine = jo.getString(CUISINE);
         String mealType = jo.getString(MEAL_TYPE);
-        ArrayList<String> healthLabels = new ArrayList<>();
-        ja = jo.getJSONArray(HEALTH_LABELS);
-        for (int i = 0; i < ja.length(); ++i) {
-            healthLabels.add(ja.getString(i));
+
+        JSONArray healthLabelsArray = jo.getJSONArray("health_labels");
+        List<String> healthLabels = new ArrayList<>();
+        for (int i = 0; i < healthLabelsArray.length(); i++) {
+            healthLabels.add(healthLabelsArray.getString(i));
         }
-        ArrayList<String> instrucciones = new ArrayList<>();
-        ja = jo.getJSONArray(INSTRUCCIONES);
-        for (int i = 0; i < ja.length(); ++i) {
-            instrucciones.add(ja.getString(i));
+
+        JSONArray instructionsArray = jo.getJSONArray("instructions");
+        List<String> instructions = new ArrayList<>();
+        for (int i = 0; i < instructionsArray.length(); i++) {
+            instructions.add(instructionsArray.getString(i));
         }
-        return new Receta(titulo, image_uri, source_uri, ingredientes, tiempo, cuisine, mealType, healthLabels, instrucciones);
+        return new Receta(titulo, image_uri, source_uri, ingredientes, tiempoPreparacion, cuisine, mealType, healthLabels, instructions);
     }
+
+    public static List<Receta> readRecetasFromStorage(Context context, String fileName) {
+        List<Receta> recetas = new ArrayList<>();
+
+        try {
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            String json = sb.toString();
+            Gson gson = new Gson();
+
+            Type listType = new TypeToken<ArrayList<Receta>>() {}.getType();
+            recetas = gson.fromJson(json, listType);
+
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return recetas;
+    }
+
     public String getInstructions() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < instructions.size(); i++){
@@ -137,12 +171,14 @@ public class Receta implements Serializable {
         return sb.toString();
     }
     public static List<Receta> fromJsonResponse(String jsonStringList) throws JSONException {
-        if(jsonStringList == null)
-            return null;
+        if (jsonStringList == null || jsonStringList.isEmpty()) {
+            return new ArrayList<>();
+        }
 
         List<Receta> recetas = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(jsonStringList);
+
         int start = jsonObject.getInt("from");
         int end = jsonObject.getInt("to");
 

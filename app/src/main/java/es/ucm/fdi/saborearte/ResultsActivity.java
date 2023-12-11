@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -38,16 +39,27 @@ public class ResultsActivity extends AppCompatActivity {
 
         recetaLoaderCallback = new RecetaLoaderCallback(this);
         LoaderManager loaderManager = LoaderManager.getInstance(this);
-        if(loaderManager.getLoader(RECETA_LOADER_ID) != null){
-            loaderManager.initLoader(RECETA_LOADER_ID, null, recetaLoaderCallback);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getBooleanExtra("mostrarFavoritos", false)) {
+            InternalStorage internalStorage = new InternalStorage(this);
+            List<Receta> recetasFavoritas = internalStorage.readRecetas();
+            if (recetasFavoritas != null && !recetasFavoritas.isEmpty()) {
+                RecetaResultListAdapter adapter = new RecetaResultListAdapter(this, recetasFavoritas);
+                resultsRecyclerView.setAdapter(adapter);
+            } else {
+                tvNoResults.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Bundle queryBundle = intent != null ? intent.getBundleExtra("queryBundle") : null;
+            if (queryBundle != null) {
+                progressBar.setVisibility(View.VISIBLE);
+                LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
+            } else {
+                tvNoResults.setVisibility(View.VISIBLE);
+                Log.i(TAG, "No query bundle provided for results view");
+            }
         }
-
-        Bundle queryBundle = getIntent().getBundleExtra("queryBundle");
-
-        Log.i(TAG, "Creating results view");
-
-        progressBar.setVisibility(View.VISIBLE);
-        LoaderManager.getInstance(this).restartLoader(RECETA_LOADER_ID, queryBundle, recetaLoaderCallback);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -61,11 +73,8 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     public void updateBooksResultList(List<Receta> recetas) {
-        Log.i(TAG, "Updating results view");
         progressBar.setVisibility(View.GONE);
-        Log.i(TAG, "Progress bar hidden");
         if (recetas == null || recetas.isEmpty()) {
-            Log.i(TAG, "No results visible");
             tvNoResults.setVisibility(View.VISIBLE);
         } else {
             RecetaResultListAdapter adapter = new RecetaResultListAdapter(this, recetas);

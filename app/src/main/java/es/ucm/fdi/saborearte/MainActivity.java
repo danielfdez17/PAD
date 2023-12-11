@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,6 +29,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 
 import androidx.loader.app.LoaderManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "prefs";
     private static final String PREF_DARK_THEME = "dark_theme";
     private String selectedDiet = "";
+    private List<Receta> listaDeRecetas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Theme_SaboreArte);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         this.internalStorage = new InternalStorage(this);
         lista_ingredientes= new ArrayList<>();
         lista_bloqueados=new ArrayList<>();
@@ -66,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         this.etTiempo = findViewById(R.id.et_tiempo);
         tiempo_maximo = this.etTiempo.getText().toString();
 
+        Button btnMostrarRecetasFavoritas = findViewById(R.id.btn_ver_favoritas);
+
+        listaDeRecetas = internalStorage.readRecetas();
+
+        // Crear una instancia del adaptador y pasar la lista de recetas y el contexto
+        RecetaResultListAdapter adapter = new RecetaResultListAdapter(this, listaDeRecetas);
 
         this.etTiempo.setOnClickListener(v -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
@@ -86,9 +98,15 @@ public class MainActivity extends AppCompatActivity {
         // Obtiene las opciones de dieta desde strings.xml
         String[] dietOptions = getResources().getStringArray(R.array.health_options);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dietOptions);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDieta.setAdapter(adapter);
+        ArrayAdapter<String> dietAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dietOptions);
+        dietAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDieta.setAdapter(dietAdapter);
+    }
+
+    public void verFavoritos(View view) {
+        Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
+        intent.putExtra("mostrarFavoritos", true);
+        startActivity(intent);
     }
 
     private void createChips(ChipGroup chipGroup, EditText eText, List<String> list){
@@ -160,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchRecetas(View view) {
-        Log.i(TAG, "Search recetas btn clicked");
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         Network network = connMgr.getActiveNetwork();
         NetworkCapabilities networkCap = connMgr.getNetworkCapabilities(network);
@@ -193,11 +210,9 @@ public class MainActivity extends AppCompatActivity {
         // INGREDIENTES BLOQUEADOS
         ArrayList<String> ingBloqueados = new ArrayList<>();
         if (!this.lista_bloqueados.isEmpty()) {
-            Log.i(TAG, "Existen ingredientes para bloquear");
             ingBloqueados = new ArrayList<>();
             for (String s : lista_bloqueados)
                 ingBloqueados.add(s);
-            Log.i(TAG, "Ingredientes bloqueados: " + ingBloqueados);
         }
         else {
             Log.i(TAG, "No se han bloqueado ingredientes");
@@ -208,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         String timeRange = "1";
         String maxTime = this.etTiempo.getText().toString();
         if (!maxTime.isEmpty()) {
-            Log.i(TAG, "Hay tiempo maximo");
             String[] horasMinutos = maxTime.split(":");
             String horasStr = horasMinutos[0];
             String minutosStr = horasMinutos[1];
@@ -221,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             timeRange += "+";
         }
-        Log.i(TAG, "Time range: " + timeRange);
         queryBundle.putString(RecetaAPI.TIME_RANGE_PARAM, timeRange);
 
         // TIPOS DE COMIDA
@@ -242,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> tiposCocina = new ArrayList<>();
 
         if (!cuisineType.isEmpty()) {
-            Log.i(TAG, "Hay tipos de comida seleccionados");
             tiposCocina = new ArrayList<String>();
             String[] strSplit = cuisineType.split(",");
             for (String s : strSplit) {
@@ -255,7 +267,6 @@ public class MainActivity extends AppCompatActivity {
         TextInputLayout layoutSpinnerDieta = findViewById(R.id.layout_spinner_dieta);
         Spinner spinnerDieta = layoutSpinnerDieta.findViewById(R.id.spinner_dieta_opciones);
         String health = (String) spinnerDieta.getSelectedItem();
-        Log.i(TAG, "Alergias seleccionadas: " + health);
         queryBundle.putString(RecetaAPI.HEALTH_PARAM, health);
 
         clearFields();
@@ -342,9 +353,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recreate();
-    }
-
-    public void verFavoritos(View view) {
-        Log.i(TAG, "Ver favoritos btn clicked");
     }
 }

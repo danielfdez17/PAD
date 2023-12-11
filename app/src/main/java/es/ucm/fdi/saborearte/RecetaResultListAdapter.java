@@ -16,6 +16,7 @@ public class RecetaResultListAdapter extends RecyclerView.Adapter<RecetaResultLi
 
     private List<Receta> listaRecetas;
     private Context context;
+    private List<Receta> listaDeRecetas;
 
     // Constructor
     public RecetaResultListAdapter(Context context, List<Receta> listaRecetas) {
@@ -30,13 +31,17 @@ public class RecetaResultListAdapter extends RecyclerView.Adapter<RecetaResultLi
         return new RecetaViewHolder(view);
     }
 
+    public void setRecetas(List<Receta> recetas) {
+        this.listaDeRecetas = recetas;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecetaViewHolder holder, int position) {
         Receta recetaActual = listaRecetas.get(position);
         holder.tvTitulo.setText(recetaActual.getTitulo());
         holder.tvTiempo.setText(recetaActual.getTiempoPreparacion() + " min.");
 
-        // Glide para cargar imágenes desde URLs
          Glide.with(context).load(recetaActual.getImage_uri()).into(holder.ivImagen);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
