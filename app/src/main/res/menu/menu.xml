@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/modoOscuro"
+            android:title="@string/night_mode"/>
+    <item android:id="@+id/modoClaro"
+        android:title="@string/day_mode"/>
+<!--    <item android:id="@+id/cambioCastellano"-->
+<!--        android:title="@string/lang_es"/>-->
+<!--    <item android:id="@+id/cambioIngles"-->
+<!--        android:title="@string/lang_en" />-->
+</menu>

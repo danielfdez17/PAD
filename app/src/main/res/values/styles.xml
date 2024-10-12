@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GradientButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_gradient</item>
+    </style>
+    <style name="ChipIngredientesDisponibles" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/colorAccent</item>
+    </style>
+
+    <style name="ChipIngredientesBloqueados" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/colorGray</item>
+    </style>
+</resources>

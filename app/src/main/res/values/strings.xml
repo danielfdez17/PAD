@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SaboreArte</string>
+    <string name="selected_language">Castellano</string>
+
+    <string-array name="tiempos_preparacion">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>45 minutos</item>
+        <item>60 minutos</item>
+        <item>120 minutos</item>
+    </string-array>
+    <string name="ingredientes_incluir">Introduce ingredientes disponibles</string>
+    <string name="ingredientes_excluir">Introduce ingredientes a bloquear</string>
+    <string name="max_time">Tiempo máximo</string>
+    <string-array name="health_options">
+        <item></item>
+        <item>Sin Lactosa</item>
+        <item>Sin Gluten</item>
+        <item>Sin Cacahuetes</item>
+        <item>Pescatariana</item>
+        <item>Vegana</item>
+        <item>Vegetariana</item>
+    </string-array>
+    <string name="search">Generar Recetas</string>
+    <string name="obligatorio">Obligatorio</string>
+    <string name="opcional">Opcional</string>
+    <string name="favorites">Ver Recetas Favoritas</string>
+    <string name="internet_required">Es necesario tener internet</string>
+    <string name="night_mode">Modo oscuro</string>
+    <string name="day_mode">Modo claro</string>
+    <string name="lang_es">Castellano</string>
+    <string name="lang_en">English</string>
+    <string name="back">Atrás</string>
+    <string name="title_activity_receta">Saborearte</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="instructions">Instrucciones</string>
+    <string name="no_results">No hay resultados</string>
+    <string name="dayModeActivated">Modo claro activado</string>
+    <string name="nightModeActivated">Modo oscuro activado</string>
+    <string name="manadatoryTextEmpty">¡No se puede comer del aire! :)</string>
+</resources>

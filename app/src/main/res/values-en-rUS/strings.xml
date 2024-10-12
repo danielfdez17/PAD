@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SaboreArte</string>
+    <string name="selected_language">Spanish</string>
+    <string-array name="tiempos_preparacion">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>60 minutes</item>
+        <item>120 minutes</item>
+    </string-array>
+    <string name="ingredientes_incluir">Introduce available ingredients</string>
+    <string name="ingredientes_excluir">Introduce ingredients to block</string>
+    <string name="max_time">Maximum time</string>
+    <string-array name="health_options">
+        <item></item>
+        <item>dairy-free</item>
+        <item>gluten-free</item>
+        <item>peanut-free</item>
+        <item>pescatarian</item>
+        <item>vegan</item>
+        <item>vegetarian</item>
+    </string-array>
+    <string name="search">Generate Recipes</string>
+    <string name="obligatorio">Mandatory</string>
+    <string name="opcional">Optional</string>
+    <string name="favorites">Show Favourites Recipes</string>
+    <string name="internet_required">Internet is required</string>
+    <string name="night_mode">Night mode</string>
+    <string name="day_mode">Day mode</string>
+    <string name="lang_es">Castellano</string>
+    <string name="lang_en">English</string>
+    <string name="back">Back</string>
+    <string name="title_activity_receta">Saborearte</string>
+    <string name="ingredientes">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="no_results">No results</string>
+    <string name="dayModeActivated">Day mode is active</string>
+    <string name="nightModeActivated">Night mode is active</string>
+    <string name="manadatoryTextEmpty">Air is not eatable! :)</string>
+</resources>
